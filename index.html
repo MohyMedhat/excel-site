@@ -66,8 +66,8 @@
     }
 
     .brand h1 {
-        font-size: 20px;
-        font-weight: 800;
+        font-size: 22px;
+        font-weight: 900;
         letter-spacing: -0.5px;
         background: linear-gradient(135deg, #38bdf8 0%, #c084fc 100%);
         -webkit-background-clip: text;
@@ -80,11 +80,12 @@
         gap: 8px;
         background: rgba(16, 185, 129, 0.1);
         border: 1px solid rgba(16, 185, 129, 0.2);
-        padding: 4px 12px;
+        padding: 6px 14px;
         border-radius: 30px;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 700;
         color: #10b981;
+        letter-spacing: 0.2px;
     }
 
     .live-dot {
@@ -92,7 +93,7 @@
         height: 8px;
         background-color: #10b981;
         border-radius: 50%;
-        animation: pulse 2s infinite;
+        animation: pulse 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
     }
 
     /* زر التحديث الاحترافي */
@@ -122,8 +123,8 @@
         transition: transform 0.5s ease;
     }
 
-    .refresh-btn:hover svg {
-        transform: rotate(180deg);
+    .refresh-btn.spinning svg {
+        animation: spin 1s linear infinite;
     }
 
     /* الحاوية الأساسية للكروت */
@@ -152,7 +153,7 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* تأثيرات التمرير الفاخرة لكل دولة وعزل الإضاءة عن الخلفية */
+    /* تأثيرات التمرير الفاخرة لكل دولة */
     .card-egypt:hover { border-color: var(--egypt-color); box-shadow: 0 25px 50px -12px var(--egypt-glow); transform: translateY(-8px); }
     .card-usa:hover { border-color: var(--usa-color); box-shadow: 0 25px 50px -12px var(--usa-glow); transform: translateY(-8px); }
     .card-qatar:hover { border-color: var(--qatar-color); box-shadow: 0 25px 50px -12px var(--qatar-glow); transform: translateY(-8px); }
@@ -207,7 +208,7 @@
         margin-bottom: 8px;
     }
 
-    /* تنسيق وعرض الأرقام الضخمة والفاخرة بشكل إنجليزي حصري */
+    /* تنسيق وعرض الأرقام الضخمة */
     .numeric-value {
         font-size: 52px;
         font-weight: 900;
@@ -216,7 +217,7 @@
         letter-spacing: -1px;
         line-height: 1.2;
         margin-top: 10px;
-        transition: all 0.3s ease;
+        transition: text-shadow 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
     }
     
     /* توهج النيون للأرقام */
@@ -224,16 +225,29 @@
     .card-usa .numeric-value { text-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
     .card-qatar .numeric-value { text-shadow: 0 0 30px rgba(168, 85, 247, 0.4); }
 
+    /* أنيميشن وميض التحديث الذكي للأرقام */
+    .value-update {
+        opacity: 0.5;
+        transform: scale(0.98);
+    }
+
     @keyframes pulse {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        0% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
 
     @media (max-width: 768px) {
-        .header { padding: 15px 20px; }
+        .header { padding: 15px 20px; flex-direction: column; gap: 15px; align-items: stretch; text-align: center; }
+        .brand { flex-direction: column; gap: 8px; }
         .grid-cards { grid-template-columns: 1fr; gap: 25px; }
         .container { margin: 30px auto; }
+        .refresh-btn { justify-content: center; }
     }
 </style>
 </head>
@@ -243,11 +257,11 @@
     <div class="brand">
         <div class="live-status">
             <span class="live-dot"></span>
-            <span>بث مباشر من الشيت</span>
+            <span>بث مباشر ذكي</span>
         </div>
         <h1>المراقبة الذكية الموحدة</h1>
     </div>
-    <button class="refresh-btn" onclick="loadData()">
+    <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
         <span>تحديث فوري</span>
     </button>
@@ -256,6 +270,7 @@
 <div class="container">
     <div class="grid-cards">
         
+        <!-- كارت مصر -->
         <div class="card card-egypt">
             <span class="currency-badge">EGP / ج.م</span>
             <div class="card-content">
@@ -267,6 +282,7 @@
             </div>
         </div>
         
+        <!-- كارت أمريكا -->
         <div class="card card-usa">
             <span class="currency-badge">USD / $</span>
             <div class="card-content">
@@ -278,13 +294,14 @@
             </div>
         </div>
         
+        <!-- كارت قطر -->
         <div class="card card-qatar">
             <span class="currency-badge">QAR / ر.ق</span>
             <div class="card-content">
                 <div class="flag-wrapper">
                     <img src="https://flagcdn.com/w160/qa.png" alt="قطر">
                 </div>
-                <div class="country-title">دولة قطر الإلكترونية</div>
+                <div class="country-title">دولة قطر</div>
                 <div class="numeric-value" id="qatar">--</div>
             </div>
         </div>
@@ -293,10 +310,15 @@
 </div>
 
 <script>
-// رابط تطبيق الويب الفعّال المربوط ببياناتك مباشرة 
+// ضع رابط الـ Web App الخاص بـ Google Script هنا
 const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
 
+let isFetching = false;
+
 async function loadData() {
+    if (isFetching) return; 
+    isFetching = true;
+    
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error("Network issues encountered");
@@ -317,16 +339,37 @@ async function loadData() {
             else if (cellText.includes("قطر") || cellText.includes("qatar")) countryId = "qatar";
 
             if (countryId !== "") {
-                // استخدام 'en-US' لفرض كتابة الأرقام بالشكل الإنجليزي الحديث والمطلوب
-                document.getElementById(countryId).textContent = num.toLocaleString('en-US'); 
+                const element = document.getElementById(countryId);
+                const newValue = num.toLocaleString('en-US');
+                
+                // تأثير بصري وميضي ذكي فقط في حال تغير القيمة الفعلي لمنع الإزعاج البصري
+                if (element.textContent !== newValue) {
+                    element.classList.add('value-update');
+                    setTimeout(() => {
+                        element.textContent = newValue;
+                        element.classList.remove('value-update');
+                    }, 200);
+                }
             }
         }
     } catch (err) {
         console.error("Error drawing live dashboard parameters:", err);
+    } finally {
+        isFetching = false;
     }
 }
 
-// التشغيل التلقائي اللحظي عند تحميل الصفحة وتحديث دوري صامت خلفي كل ثانيتين
+// دالة التحديث اليدوي عند الضغط على الزر مع أنيميشن دوران الأيقونة
+async function manualRefresh() {
+    const btn = document.getElementById('refreshBtn');
+    btn.classList.add('spinning');
+    await loadData();
+    setTimeout(() => {
+        btn.classList.remove('spinning');
+    }, 600);
+}
+
+// التشغيل الفوري والدوري الصامت المباشر كل ثانيتين
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
     setInterval(loadData, 2000); 
