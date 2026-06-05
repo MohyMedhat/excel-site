@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة المؤشرات الحية  | REAL-TIME DASHBOARD</title>
+<title>لوحة الأصول الذكية المزدوجة | LIVE DASHBOARD</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,20 +17,17 @@
         --text-primary: #f8fafc;
         --text-secondary: #64748b;
         
-        /* تأثيرات الإضاءة الخاصة بالدول */
         --egypt-color: #ff4a4a;
-        --egypt-glow: rgba(255, 74, 74, 0.25);
+        --egypt-glow: rgba(255, 74, 74, 0.2);
         --usa-color: #3b82f6;
-        --usa-glow: rgba(59, 130, 246, 0.25);
+        --usa-glow: rgba(59, 130, 246, 0.2);
         --qatar-color: #a855f7;
-        --qatar-glow: rgba(168, 85, 247, 0.25);
+        --qatar-glow: rgba(168, 85, 247, 0.2);
+        --gold-color: #f59e0b;
+        --gold-glow: rgba(245, 158, 11, 0.3);
     }
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
         font-family: 'Cairo', sans-serif;
@@ -44,7 +41,6 @@
         overflow-x: hidden;
     }
 
-    /* الشريط العلوي الهيدر */
     .header {
         display: flex;
         justify-content: space-between;
@@ -59,16 +55,11 @@
         z-index: 100;
     }
 
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-    }
+    .brand { display: flex; align-items: center; gap: 14px; }
 
     .brand h1 {
         font-size: 22px;
         font-weight: 900;
-        letter-spacing: -0.5px;
         background: linear-gradient(135deg, #38bdf8 0%, #c084fc 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -85,7 +76,6 @@
         font-size: 12px;
         font-weight: 700;
         color: #10b981;
-        letter-spacing: 0.2px;
     }
 
     .live-dot {
@@ -96,7 +86,6 @@
         animation: pulse 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
     }
 
-    /* زر التحديث الاحترافي */
     .refresh-btn {
         background: rgba(255, 255, 255, 0.03);
         color: var(--text-primary);
@@ -110,144 +99,98 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
     }
 
-    .refresh-btn:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
-    }
+    .refresh-btn:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
+    .refresh-btn.spinning svg { animation: spin 1s linear infinite; }
 
-    .refresh-btn svg {
-        transition: transform 0.5s ease;
-    }
+    .container { max-width: 1300px; margin: 60px auto; padding: 0 24px; }
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
 
-    .refresh-btn.spinning svg {
-        animation: spin 1s linear infinite;
-    }
-
-    /* الحاوية الأساسية للكروت */
-    .container {
-        max-width: 1300px;
-        margin: 60px auto;
-        padding: 0 24px;
-    }
-
-    .grid-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-        gap: 35px;
-    }
-
-    /* التصميم الزجاجي للكارت الكبير */
     .card {
         background: var(--card-bg);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border: 1px solid var(--border-color);
-        border-radius: 32px;
-        padding: 40px 30px;
+        border-radius: 28px;
+        padding: 35px 25px;
         position: relative;
         overflow: hidden;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* تأثيرات التمرير الفاخرة لكل دولة */
-    .card-egypt:hover { border-color: var(--egypt-color); box-shadow: 0 25px 50px -12px var(--egypt-glow); transform: translateY(-8px); }
-    .card-usa:hover { border-color: var(--usa-color); box-shadow: 0 25px 50px -12px var(--usa-glow); transform: translateY(-8px); }
-    .card-qatar:hover { border-color: var(--qatar-color); box-shadow: 0 25px 50px -12px var(--qatar-glow); transform: translateY(-8px); }
+    .card-egypt:hover { border-color: var(--egypt-color); box-shadow: 0 20px 40px -12px var(--egypt-glow); transform: translateY(-5px); }
+    .card-usa:hover { border-color: var(--usa-color); box-shadow: 0 20px 40px -12px var(--usa-glow); transform: translateY(-5px); }
+    .card-qatar:hover { border-color: var(--qatar-color); box-shadow: 0 20px 40px -12px var(--qatar-glow); transform: translateY(-5px); }
+    .card-gold:hover { border-color: var(--gold-color); box-shadow: 0 20px 40px -12px var(--gold-glow); transform: translateY(-5px); }
 
-    /* البادج الصغير العلوي داخل الكارت */
-    .currency-badge {
-        position: absolute;
-        top: 25px;
-        left: 25px;
-        font-size: 11px;
-        font-weight: 800;
-        padding: 4px 14px;
-        border-radius: 30px;
-        letter-spacing: 0.5px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
+    .currency-badge { position: absolute; top: 20px; left: 20px; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 30px; }
     .card-egypt .currency-badge { color: var(--egypt-color); background: rgba(255, 74, 74, 0.05); }
     .card-usa .currency-badge { color: var(--usa-color); background: rgba(59, 130, 246, 0.05); }
     .card-qatar .currency-badge { color: var(--qatar-color); background: rgba(168, 85, 247, 0.05); }
+    .card-gold .currency-badge { color: var(--gold-color); background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); }
 
-    /* الهيكل الداخلي لمحتوى الكارت */
-    .card-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    .card-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
 
-    .flag-wrapper {
-        width: 85px;
-        height: 85px;
-        border-radius: 50%;
+    .flag-wrapper { 
+        width: 85px; 
+        height: 85px; 
+        border-radius: 50%; 
         overflow: hidden;
-        margin-bottom: 20px;
-        border: 2px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 20px; 
+        border: 2px solid rgba(255, 255, 255, 0.08); 
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: transform 0.4s ease;
     }
+    
     .card:hover .flag-wrapper {
         transform: scale(1.08);
     }
+
     .flag-wrapper img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-
-    .country-title {
-        font-size: 17px;
-        font-weight: 700;
-        color: var(--text-secondary);
-        margin-bottom: 8px;
-    }
-
-    /* تنسيق وعرض الأرقام الضخمة */
-    .numeric-value {
-        font-size: 52px;
-        font-weight: 900;
-        color: #ffffff;
-        font-family: 'Cairo', sans-serif;
-        letter-spacing: -1px;
-        line-height: 1.2;
-        margin-top: 10px;
-        transition: text-shadow 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
-    }
     
-    /* توهج النيون للأرقام */
-    .card-egypt .numeric-value { text-shadow: 0 0 30px rgba(255, 74, 74, 0.4); }
-    .card-usa .numeric-value { text-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
-    .card-qatar .numeric-value { text-shadow: 0 0 30px rgba(168, 85, 247, 0.4); }
-
-    /* أنيميشن وميض التحديث الذكي للأرقام */
-    .value-update {
-        opacity: 0.5;
-        transform: scale(0.98);
+    /* تحديث ستايل أيقونة الذهب ثلاثية الأبعاد الفاخرة */
+    .flag-wrapper.gold-icon { 
+        background: linear-gradient(135deg, #111827 0%, #030712 100%); 
+        border-color: rgba(245, 158, 11, 0.4);
+        box-shadow: inset 0 0 15px rgba(245, 158, 11, 0.15), 0 10px 25px rgba(0, 0, 0, 0.5);
     }
+
+    .country-title { font-size: 16px; font-weight: 700; color: var(--text-secondary); margin-bottom: 5px; }
+
+    .values-container { display: flex; flex-direction: column; align-items: center; margin-top: 10px; width: 100%; }
+
+    .numeric-value { font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; line-height: 1.1; transition: all 0.2s ease; }
+    
+    .card-egypt .numeric-value { text-shadow: 0 0 25px rgba(255, 74, 74, 0.3); }
+    .card-usa .numeric-value { text-shadow: 0 0 25px rgba(59, 130, 246, 0.3); }
+    .card-qatar .numeric-value { text-shadow: 0 0 25px rgba(168, 85, 247, 0.3); }
+    .card-gold .numeric-value { text-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
+
+    .cash-sub-box { margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); width: 85%; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .cash-label { color: var(--text-secondary); font-weight: 600; }
+    .cash-amount { font-weight: 800; color: #e2e8f0; }
+
+    .value-update { opacity: 0.4; transform: scale(0.96); }
 
     @keyframes pulse {
         0% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-        50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
         100% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
-
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
     @media (max-width: 768px) {
-        .header { padding: 15px 20px; flex-direction: column; gap: 15px; align-items: stretch; text-align: center; }
-        .brand { flex-direction: column; gap: 8px; }
-        .grid-cards { grid-template-columns: 1fr; gap: 25px; }
-        .container { margin: 30px auto; }
-        .refresh-btn { justify-content: center; }
+        .header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+        .grid-cards { grid-template-columns: 1fr; }
     }
 </style>
 </head>
@@ -257,9 +200,9 @@
     <div class="brand">
         <div class="live-status">
             <span class="live-dot"></span>
-            <span>بث مباشر ذكي</span>
+            <span>بث مباشر | واجهة الأصول المحدثة</span>
         </div>
-        <h1>المراقبة الذكية الموحدة</h1>
+        <h1>لوحة المراقبة والتحليل المالي الذكي</h1>
     </div>
     <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
@@ -270,39 +213,97 @@
 <div class="container">
     <div class="grid-cards">
         
-        <!-- كارت مصر -->
         <div class="card card-egypt">
             <span class="currency-badge">EGP / ج.م</span>
             <div class="card-content">
                 <div class="flag-wrapper">
                     <img src="https://flagcdn.com/w160/eg.png" alt="مصر">
                 </div>
-                <div class="country-title">جمهورية مصر العربية</div>
-                <div class="numeric-value" id="egypt">--</div>
+                <div class="country-title">الرصيد بالجنيه المصري</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_egypt">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">كاش مصري:</span>
+                        <span class="cash-amount" id="cash_egypt">--</span>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <!-- كارت أمريكا -->
         <div class="card card-usa">
             <span class="currency-badge">USD / $</span>
             <div class="card-content">
                 <div class="flag-wrapper">
                     <img src="https://flagcdn.com/w160/us.png" alt="أمريكا">
                 </div>
-                <div class="country-title">الولايات المتحدة الأمريكية</div>
-                <div class="numeric-value" id="usa">--</div>
+                <div class="country-title">الرصيد بالدولار الأمريكي</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_usa">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">الرصيد بالجنيه المصري:</span>
+                        <span class="cash-amount" id="cash_usa">--</span>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <!-- كارت قطر -->
         <div class="card card-qatar">
             <span class="currency-badge">QAR / ر.ق</span>
             <div class="card-content">
                 <div class="flag-wrapper">
                     <img src="https://flagcdn.com/w160/qa.png" alt="قطر">
                 </div>
-                <div class="country-title">دولة قطر</div>
-                <div class="numeric-value" id="qatar">--</div>
+                <div class="country-title">الرصيد بالريال القطري</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_qatar">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">الرصيد بالجنيه المصري:</span>
+                        <span class="cash-amount" id="cash_qatar">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-gold">
+            <span class="currency-badge">GOLD / جرام</span>
+            <div class="card-content">
+                <div class="flag-wrapper gold-icon">
+                    <svg width="46" height="46" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="goldTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fef08a" />
+                                <stop offset="50%" stop-color="#d97706" />
+                                <stop offset="100%" stop-color="#78350f" />
+                            </linearGradient>
+                            <linearGradient id="goldSide" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#b45309" />
+                                <stop offset="100%" stop-color="#451a03" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M12 40 L28 32 L44 36 L28 45 Z" fill="url(#goldTop)" opacity="0.7"/>
+                        <path d="M12 40 L28 45 L28 50 L12 45 Z" fill="url(#goldSide)" opacity="0.7"/>
+                        <path d="M28 45 L44 36 L44 41 L28 50 Z" fill="url(#goldSide)" opacity="0.5"/>
+
+                        <path d="M22 32 L38 24 L54 28 L38 37 Z" fill="url(#goldTop)" opacity="0.7"/>
+                        <path d="M22 32 L38 37 L38 42 L22 37 Z" fill="url(#goldSide)" opacity="0.7"/>
+                        <path d="M38 37 L54 28 L54 33 L38 42 Z" fill="url(#goldSide)" opacity="0.5"/>
+
+                        <path d="M16 46 L36 36 L56 41 L36 52 Z" fill="url(#goldTop)"/>
+                        <path d="M16 46 L36 52 L36 58 L16 51 Z" fill="url(#goldSide)"/>
+                        <path d="M36 52 L56 41 L56 46 L36 58 Z" fill="url(#goldSide)" opacity="0.6"/>
+                        
+                        <circle cx="36" cy="42" r="1.5" fill="#ffffff" opacity="0.8"/>
+                        <circle cx="25" cy="45" r="1" fill="#ffffff" opacity="0.6"/>
+                    </svg>
+                </div>
+                <div class="country-title">جرامات الذهب</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_gold_grams">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">إجمالي قيمة الذهب:</span>
+                        <span class="cash-amount" id="total_gold_value">--</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -310,10 +311,29 @@
 </div>
 
 <script>
-// ضع رابط الـ Web App الخاص بـ Google Script هنا
 const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
 
 let isFetching = false;
+
+function smoothUpdate(elementId, value, isDecimal = false) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    let formattedValue;
+    if (isDecimal) {
+        formattedValue = Number(value).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+    } else {
+        formattedValue = Math.round(value).toLocaleString('en-US');
+    }
+    
+    if (element.textContent !== formattedValue) {
+        element.classList.add('value-update');
+        setTimeout(() => {
+            element.textContent = formattedValue;
+            element.classList.remove('value-update');
+        }, 200);
+    }
+}
 
 async function loadData() {
     if (isFetching) return; 
@@ -321,55 +341,58 @@ async function loadData() {
     
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("Network issues encountered");
+        if (!response.ok) throw new Error("Network issue");
         
         const matrix = await response.json(); 
 
         for (let r = 0; r < matrix.length; r++) {
             if (!matrix[r] || matrix[r].length < 2) continue;
             
-            let cellText = String(matrix[r][0]).trim().toLowerCase();
+            let cellText = String(matrix[r][0]).replace(/\s+/g, '').trim().toLowerCase();
             let num = Number(matrix[r][1]);
             
             if (isNaN(num)) continue;
 
-            let countryId = "";
-            if (cellText.includes("مصر") || cellText.includes("egy")) countryId = "egypt";
-            else if (cellText.includes("أمريكا") || cellText.includes("امريكا") || cellText.includes("usa")) countryId = "usa";
-            else if (cellText.includes("قطر") || cellText.includes("qatar")) countryId = "qatar";
-
-            if (countryId !== "") {
-                const element = document.getElementById(countryId);
-                const newValue = num.toLocaleString('en-US');
-                
-                // تأثير بصري وميضي ذكي فقط في حال تغير القيمة الفعلي لمنع الإزعاج البصري
-                if (element.textContent !== newValue) {
-                    element.classList.add('value-update');
-                    setTimeout(() => {
-                        element.textContent = newValue;
-                        element.classList.remove('value-update');
-                    }, 200);
-                }
+            if (cellText === "اجماليمصر" || cellText === "إجماليمصر") {
+                smoothUpdate('total_egypt', num);
+            } 
+            else if (cellText === "اجماليدولار" || cellText === "إجماليدولار") {
+                smoothUpdate('total_usa', num);
+            } 
+            else if (cellText === "اجماليريال" || cellText === "إجماليريال") {
+                smoothUpdate('total_qatar', num);
+            }
+            else if (cellText === "مصري" || cellText === "مصر") {
+                smoothUpdate('cash_egypt', num);
+            } 
+            else if (cellText === "دولار") {
+                smoothUpdate('cash_usa', num);
+            } 
+            else if (cellText === "ريال" || cellText === "قطري") {
+                smoothUpdate('cash_qatar', num);
+            }
+            else if (cellText === "جراماتدهب" || cellText === "جراماتذهب") {
+                smoothUpdate('total_gold_grams', num, true); 
+            }
+            else if (cellText === "دهب" || cellText === "ذهب") {
+                smoothUpdate('total_gold_value', num);
             }
         }
+
     } catch (err) {
-        console.error("Error drawing live dashboard parameters:", err);
+        console.error("Dashboard error:", err);
     } finally {
         isFetching = false;
     }
 }
 
-// دالة التحديث اليدوي عند الضغط على الزر مع أنيميشن دوران الأيقونة
 async function manualRefresh() {
     const btn = document.getElementById('refreshBtn');
     btn.classList.add('spinning');
     await loadData();
-    setTimeout(() => {
-        btn.classList.remove('spinning');
-    }, 600);
+    setTimeout(() => { btn.classList.remove('spinning'); }, 600);
 }
 
-// التشغيل الفوري والدوري الصامت المباشر كل ثانيتين
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
     setInterval(loadData, 2000); 
