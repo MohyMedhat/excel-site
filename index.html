@@ -157,11 +157,17 @@
         object-fit: cover;
     }
     
-    /* تحديث ستايل أيقونة الذهب ثلاثية الأبعاد الفاخرة */
+    /* خلفية داكنة مخصصة لإبراز لون الذهب الحقيقي */
     .flag-wrapper.gold-icon { 
-        background: linear-gradient(135deg, #111827 0%, #030712 100%); 
-        border-color: rgba(245, 158, 11, 0.4);
-        box-shadow: inset 0 0 15px rgba(245, 158, 11, 0.15), 0 10px 25px rgba(0, 0, 0, 0.5);
+        background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); 
+        border-color: rgba(245, 158, 11, 0.3);
+    }
+    
+    /* جعل صورة سبيكة الذهب تأخذ مساحة مناسبة داخل الدائرة */
+    .flag-wrapper.gold-icon img {
+        width: 75%;
+        height: 75%;
+        object-fit: contain;
     }
 
     .country-title { font-size: 16px; font-weight: 700; color: var(--text-secondary); margin-bottom: 5px; }
@@ -200,7 +206,7 @@
     <div class="brand">
         <div class="live-status">
             <span class="live-dot"></span>
-            <span>بث مباشر | واجهة الأصول المحدثة</span>
+            <span>بث مباشر | واجهة الأصول الذكية الموحدة</span>
         </div>
         <h1>لوحة المراقبة والتحليل المالي الذكي</h1>
     </div>
@@ -268,33 +274,7 @@
             <span class="currency-badge">GOLD / جرام</span>
             <div class="card-content">
                 <div class="flag-wrapper gold-icon">
-                    <svg width="46" height="46" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="goldTop" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#fef08a" />
-                                <stop offset="50%" stop-color="#d97706" />
-                                <stop offset="100%" stop-color="#78350f" />
-                            </linearGradient>
-                            <linearGradient id="goldSide" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#b45309" />
-                                <stop offset="100%" stop-color="#451a03" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M12 40 L28 32 L44 36 L28 45 Z" fill="url(#goldTop)" opacity="0.7"/>
-                        <path d="M12 40 L28 45 L28 50 L12 45 Z" fill="url(#goldSide)" opacity="0.7"/>
-                        <path d="M28 45 L44 36 L44 41 L28 50 Z" fill="url(#goldSide)" opacity="0.5"/>
-
-                        <path d="M22 32 L38 24 L54 28 L38 37 Z" fill="url(#goldTop)" opacity="0.7"/>
-                        <path d="M22 32 L38 37 L38 42 L22 37 Z" fill="url(#goldSide)" opacity="0.7"/>
-                        <path d="M38 37 L54 28 L54 33 L38 42 Z" fill="url(#goldSide)" opacity="0.5"/>
-
-                        <path d="M16 46 L36 36 L56 41 L36 52 Z" fill="url(#goldTop)"/>
-                        <path d="M16 46 L36 52 L36 58 L16 51 Z" fill="url(#goldSide)"/>
-                        <path d="M36 52 L56 41 L56 46 L36 58 Z" fill="url(#goldSide)" opacity="0.6"/>
-                        
-                        <circle cx="36" cy="42" r="1.5" fill="#ffffff" opacity="0.8"/>
-                        <circle cx="25" cy="45" r="1" fill="#ffffff" opacity="0.6"/>
-                    </svg>
+                    <img src="https://img.icons8.com/fluent/96/gold-bars.png" alt="ذهب">
                 </div>
                 <div class="country-title">جرامات الذهب</div>
                 <div class="values-container">
