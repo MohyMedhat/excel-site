@@ -1,245 +1,336 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" direction="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MONITORING DASHBOARD</title>
+<title>لوحة المؤشرات الحية  | REAL-TIME DASHBOARD</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
 <style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: radial-gradient(circle at top, #1e1b4b 0%, #090514 100%);
-    color: #f3f4f6;
-    direction: rtl;
-    min-height: 100vh;
-}
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 30px;
-    background: rgba(17, 24, 39, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-.brand {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    background: linear-gradient(to left, #38bdf8, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-button {
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-    border: none;
-    padding: 10px 22px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
-    filter: brightness(1.1);
-}
-.wrapper {
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-}
-.card {
-    background: rgba(30, 41, 59, 0.4);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 30px 20px;
-    border-radius: 24px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.card:hover {
-    transform: translateY(-10px) scale(1.03);
-    border-color: rgba(56, 189, 248, 0.4);
-    box-shadow: 0 30px 50px rgba(56, 189, 248, 0.15);
-}
-.flag {
-    font-size: 45px;
-    margin-bottom: 10px;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
-    transition: transform 0.3s ease;
-}
-.card:hover .flag {
-    transform: scale(1.2) rotate(5deg);
-}
-.country-name {
-    font-size: 16px;
-    color: #94a3b8;
-    font-weight: 600;
-}
-.value {
-    font-size: 32px;
-    margin-top: 15px;
-    font-weight: 800;
-    color: #38bdf8;
-    text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
-    font-family: 'Courier New', Courier, monospace;
-}
-.loading-text {
-    font-size: 16px;
-    color: #64748b;
-    font-weight: normal;
-    text-shadow: none;
-    animation: blink 1.5s infinite;
-}
-@keyframes blink {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-}
-.live-indicator {
-    width: 8px;
-    height: 8px;
-    background-color: #10b981;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 10px #10b981;
-    animation: pulse 1.5s infinite;
-}
+    :root {
+        --bg-main: #060814;
+        --card-bg: rgba(13, 20, 38, 0.45);
+        --border-color: rgba(255, 255, 255, 0.06);
+        --text-primary: #f8fafc;
+        --text-secondary: #64748b;
+        
+        /* تأثيرات الإضاءة الخاصة بالدول */
+        --egypt-color: #ff4a4a;
+        --egypt-glow: rgba(255, 74, 74, 0.25);
+        --usa-color: #3b82f6;
+        --usa-glow: rgba(59, 130, 246, 0.25);
+        --qatar-color: #a855f7;
+        --qatar-glow: rgba(168, 85, 247, 0.25);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Cairo', sans-serif;
+        background-color: var(--bg-main);
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+        color: var(--text-primary);
+        direction: rtl;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* الشريط العلوي الهيدر */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 5%;
+        background: rgba(6, 8, 20, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .brand h1 {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, #38bdf8 0%, #c084fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .live-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        padding: 4px 12px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #10b981;
+    }
+
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #10b981;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    /* زر التحديث الاحترافي */
+    .refresh-btn {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        padding: 10px 20px;
+        font-family: 'Cairo', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        border-radius: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .refresh-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .refresh-btn svg {
+        transition: transform 0.5s ease;
+    }
+
+    .refresh-btn:hover svg {
+        transform: rotate(180deg);
+    }
+
+    /* الحاوية الأساسية للكروت */
+    .container {
+        max-width: 1300px;
+        margin: 60px auto;
+        padding: 0 24px;
+    }
+
+    .grid-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 35px;
+    }
+
+    /* التصميم الزجاجي للكارت الكبير */
+    .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--border-color);
+        border-radius: 32px;
+        padding: 40px 30px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* تأثيرات التمرير الفاخرة لكل دولة وعزل الإضاءة عن الخلفية */
+    .card-egypt:hover { border-color: var(--egypt-color); box-shadow: 0 25px 50px -12px var(--egypt-glow); transform: translateY(-8px); }
+    .card-usa:hover { border-color: var(--usa-color); box-shadow: 0 25px 50px -12px var(--usa-glow); transform: translateY(-8px); }
+    .card-qatar:hover { border-color: var(--qatar-color); box-shadow: 0 25px 50px -12px var(--qatar-glow); transform: translateY(-8px); }
+
+    /* البادج الصغير العلوي داخل الكارت */
+    .currency-badge {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 4px 14px;
+        border-radius: 30px;
+        letter-spacing: 0.5px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .card-egypt .currency-badge { color: var(--egypt-color); background: rgba(255, 74, 74, 0.05); }
+    .card-usa .currency-badge { color: var(--usa-color); background: rgba(59, 130, 246, 0.05); }
+    .card-qatar .currency-badge { color: var(--qatar-color); background: rgba(168, 85, 247, 0.05); }
+
+    /* الهيكل الداخلي لمحتوى الكارت */
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flag-wrapper {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        transition: transform 0.4s ease;
+    }
+    .card:hover .flag-wrapper {
+        transform: scale(1.08);
+    }
+    .flag-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .country-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+    }
+
+    /* تنسيق وعرض الأرقام الضخمة والفاخرة بشكل إنجليزي حصري */
+    .numeric-value {
+        font-size: 52px;
+        font-weight: 900;
+        color: #ffffff;
+        font-family: 'Cairo', sans-serif;
+        letter-spacing: -1px;
+        line-height: 1.2;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    /* توهج النيون للأرقام */
+    .card-egypt .numeric-value { text-shadow: 0 0 30px rgba(255, 74, 74, 0.4); }
+    .card-usa .numeric-value { text-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
+    .card-qatar .numeric-value { text-shadow: 0 0 30px rgba(168, 85, 247, 0.4); }
+
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    @media (max-width: 768px) {
+        .header { padding: 15px 20px; }
+        .grid-cards { grid-template-columns: 1fr; gap: 25px; }
+        .container { margin: 30px auto; }
+    }
 </style>
 </head>
 <body>
 
 <div class="header">
     <div class="brand">
-        <span class="live-indicator"></span>
-        <span>المنصة الذكية للتحكم الحقيقي</span>
+        <div class="live-status">
+            <span class="live-dot"></span>
+            <span>بث مباشر من الشيت</span>
+        </div>
+        <h1>المراقبة الذكية الموحدة</h1>
     </div>
-    <button id="refreshBtn">🔄 تحديث فوري</button>
+    <button class="refresh-btn" onclick="loadData()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        <span>تحديث فوري</span>
+    </button>
 </div>
 
-<div class="wrapper">
-    <div class="cards">
-        <div class="card">
-            <div class="flag">🇪🇬</div>
-            <div class="country-name">جمهورية مصر العربية</div>
-            <div class="value loading-text" id="egypt">جاري جلب البيانات...</div>
+<div class="container">
+    <div class="grid-cards">
+        
+        <div class="card card-egypt">
+            <span class="currency-badge">EGP / ج.م</span>
+            <div class="card-content">
+                <div class="flag-wrapper">
+                    <img src="https://flagcdn.com/w160/eg.png" alt="مصر">
+                </div>
+                <div class="country-title">جمهورية مصر العربية</div>
+                <div class="numeric-value" id="egypt">--</div>
+            </div>
         </div>
-        <div class="card">
-            <div class="flag">🇺🇸</div>
-            <div class="country-name">الولايات المتحدة الأمريكية</div>
-            <div class="value loading-text" id="usa">جاري جلب البيانات...</div>
+        
+        <div class="card card-usa">
+            <span class="currency-badge">USD / $</span>
+            <div class="card-content">
+                <div class="flag-wrapper">
+                    <img src="https://flagcdn.com/w160/us.png" alt="أمريكا">
+                </div>
+                <div class="country-title">الولايات المتحدة الأمريكية</div>
+                <div class="numeric-value" id="usa">--</div>
+            </div>
         </div>
-        <div class="card">
-            <div class="flag">🇶🇦</div>
-            <div class="country-name">دولة قطر</div>
-            <div class="value loading-text" id="qatar">جاري جلب البيانات...</div>
+        
+        <div class="card card-qatar">
+            <span class="currency-badge">QAR / ر.ق</span>
+            <div class="card-content">
+                <div class="flag-wrapper">
+                    <img src="https://flagcdn.com/w160/qa.png" alt="قطر">
+                </div>
+                <div class="country-title">دولة قطر الإلكترونية</div>
+                <div class="numeric-value" id="qatar">--</div>
+            </div>
         </div>
+
     </div>
 </div>
 
 <script>
-const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3dQrU47_kqI8UDO8GXuCmvheYdKYypec_kjHVKdfMIvolFBH77zdWp9WLM6rfXg/pub?output=tsv";
+// رابط تطبيق الويب الفعّال المربوط ببياناتك مباشرة 
+const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
 
 async function loadData() {
     try {
-        const res = await fetch(`${baseUrl}&refresh=true&t=${Date.now()}`);
-        if (!res.ok) throw new Error("Network error");
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("Network issues encountered");
         
-        const tsvText = await res.text();
-        const rows = tsvText.split(/\r?\n/);
-        
-        // قراءة المبالغ الحالية المعروضة على الشاشة بدقة وتأمينها
-        let txtEgypt = document.getElementById("egypt").textContent.replace(/[^0-9.]/g, "");
-        let txtUsa = document.getElementById("usa").textContent.replace(/[^0-9.]/g, "");
-        let txtQatar = document.getElementById("qatar").textContent.replace(/[^0-9.]/g, "");
-
-        let currentEgypt = (txtEgypt === "" || isNaN(txtEgypt)) ? 0 : Number(txtEgypt);
-        let currentUsa = (txtUsa === "" || isNaN(txtUsa)) ? 0 : Number(txtUsa);
-        let currentQatar = (txtQatar === "" || isNaN(txtQatar)) ? 0 : Number(txtQatar);
-
-        // جعل القيم الافتراضية للطلب الجديد هي نفس القيم القديمة (لا نرجع للصفر أبداً)
-        let tempEgypt = currentEgypt;
-        let tempUsa = currentUsa;
-        let tempQatar = currentQatar;
-        
-        let matrix = rows.map(row => row.split("\t"));
-
-        function cleanNumber(val) {
-            if (!val) return null;
-            let txt = val.trim().replace(/[^0-9.]/g, "");
-            return (txt !== "" && !isNaN(txt)) ? Number(txt) : null;
-        }
+        const matrix = await response.json(); 
 
         for (let r = 0; r < matrix.length; r++) {
-            for (let c = 0; c < matrix[r].length; c++) {
-                let cellText = matrix[r][c].toLowerCase();
-                
-                let country = "";
-                if (cellText.includes("مصر") || cellText.includes("egy")) country = "egypt";
-                else if (cellText.includes("أمريكا") || cellText.includes("امريكا") || cellText.includes("usa") || cellText.includes("usd")) country = "usa";
-                else if (cellText.includes("قطر") || cellText.includes("qar") || cellText.includes("qatar")) country = "qatar";
+            if (!matrix[r] || matrix[r].length < 2) continue;
+            
+            let cellText = String(matrix[r][0]).trim().toLowerCase();
+            let num = Number(matrix[r][1]);
+            
+            if (isNaN(num)) continue;
 
-                if (country !== "") {
-                    let num = null;
-                    if (c + 1 < matrix[r].length) num = cleanNumber(matrix[r][c + 1]);
-                    if ((num === null) && (r + 1 < matrix.length) && matrix[r + 1][c]) num = cleanNumber(matrix[r + 1][c]);
+            let countryId = "";
+            if (cellText.includes("مصر") || cellText.includes("egy")) countryId = "egypt";
+            else if (cellText.includes("أمريكا") || cellText.includes("امريكا") || cellText.includes("usa")) countryId = "usa";
+            else if (cellText.includes("قطر") || cellText.includes("qatar")) countryId = "qatar";
 
-                    // تطبيق الحظر الذكي: نحدث فقط إذا كان الرقم الجديد مختلفاً وليس الـ 100,000 الوهمية
-                    if (num !== null && num !== 100000) {
-                        // 🌟 شرط إضافي: نحدث القيمة فقط إذا كانت أكبر من القيمة الحالية أو إذا كانت الشاشة فارغة (لمنع الرجوع للخلف)
-                        if (country === "egypt" && (num >= currentEgypt || currentEgypt === 0)) tempEgypt = num;
-                        if (country === "usa" && (num >= currentUsa || currentUsa === 0)) tempUsa = num;
-                        if (country === "qatar" && (num >= currentQatar || currentQatar === 0)) tempQatar = num;
-                    }
-                }
+            if (countryId !== "") {
+                // استخدام 'en-US' لفرض كتابة الأرقام بالشكل الإنجليزي الحديث والمطلوب
+                document.getElementById(countryId).textContent = num.toLocaleString('en-US'); 
             }
         }
-
-        // تحديث الشاشة بالبيانات المفلترة بعناية
-        const elements = ["egypt", "usa", "qatar"];
-        const values = [tempEgypt, tempUsa, tempQatar];
-        
-        elements.forEach((id, index) => {
-            const el = document.getElementById(id);
-            if (values[index] !== 0) {
-                el.classList.remove("loading-text");
-                el.textContent = values[index].toLocaleString();
-            }
-        });
-
     } catch (err) {
-        console.error("Error updating live dashboard:", err);
+        console.error("Error drawing live dashboard parameters:", err);
     }
 }
 
+// التشغيل التلقائي اللحظي عند تحميل الصفحة وتحديث دوري صامت خلفي كل ثانيتين
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("refreshBtn").addEventListener("click", loadData);
     loadData();
-    setInterval(loadData, 15000); 
+    setInterval(loadData, 2000); 
 });
 </script>
-
 </body>
 </html>
