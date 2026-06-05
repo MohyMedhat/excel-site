@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MONITORING DASHBOARD</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top, #1e1b4b 0%, #090514 100%);
+    color: #f3f4f6;
+    direction: rtl;
+    min-height: 100vh;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 30px;
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.brand {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(to left, #38bdf8, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+button {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    filter: brightness(1.1);
+}
+.wrapper {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+.card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 30px 20px;
+    border-radius: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 30px 50px rgba(56, 189, 248, 0.15);
+}
+.flag {
+    font-size: 45px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+}
+.card:hover .flag {
+    transform: scale(1.2) rotate(5deg);
+}
+.country-name {
+    font-size: 16px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+.value {
+    font-size: 32px;
+    margin-top: 15px;
+    font-weight: 800;
+    color: #38bdf8;
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+    font-family: 'Courier New', Courier, monospace;
+}
+.loading-text {
+    font-size: 16px;
+    color: #64748b;
+    font-weight: normal;
+    text-shadow: none;
+    animation: blink 1.5s infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+.live-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 10px #10b981;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="brand">
+        <span class="live-indicator"></span>
+        <span>المنصة الذكية للتحكم الحقيقي</span>
+    </div>
+    <button id="refreshBtn">🔄 تحديث فوري</button>
+</div>
+
+<div class="wrapper">
+    <div class="cards">
+        <div class="card">
+            <div class="flag">🇪🇬</div>
+            <div class="country-name">جمهورية مصر العربية</div>
+            <div class="value loading-text" id="egypt">جاري جلب البيانات...</div>
+        </div>
+        <div class="card">
+            <div class="flag">🇺🇸</div>
+            <div class="country-name">الولايات المتحدة الأمريكية</div>
+            <div class="value loading-text" id="usa">جاري جلب البيانات...</div>
+        </div>
+        <div class="card">
+            <div class="flag">🇶🇦</div>
+            <div class="country-name">دولة قطر</div>
+            <div class="value loading-text" id="qatar">جاري جلب البيانات...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3dQrU47_kqI8UDO8GXuCmvheYdKYypec_kjHVKdfMIvolFBH77zdWp9WLM6rfXg/pub?output=tsv";
+
+async function loadData() {
+    try {
+        const res = await fetch(`${baseUrl}&refresh=true&t=${Date.now()}`);
+        if (!res.ok) throw new Error("Network error");
+        
+        const tsvText = await res.text();
+        const rows = tsvText.split(/\r?\n/);
+        
+        // جلب القيم الحالية المعروضة على الشاشة لمنع تصفيرها بالقيم الوهمية
+        let currentEgypt = document.getElementById("egypt").textContent.replace(/,/g, "");
+        let currentUsa = document.getElementById("usa").textContent.replace(/,/g, "");
+        let currentQatar = document.getElementById("qatar").textContent.replace(/,/g, "");
+
+        let tempEgypt = isNaN(currentEgypt) ? 0 : Number(currentEgypt);
+        let tempUsa = isNaN(currentUsa) ? 0 : Number(currentUsa);
+        let tempQatar = isNaN(currentQatar) ? 0 : Number(currentQatar);
+        
+        let foundData = false;
+
+        rows.forEach(row => {
+            const cells = row.split("\t"); 
+            let rowText = row.toLowerCase();
+            let numbersInRow = [];
+            
+            cells.forEach(cell => {
+                let txt = cell.trim().replace(/["\s,%]/g, "");
+                if (txt !== "" && !isNaN(txt)) {
+                    numbersInRow.push(Number(txt));
+                }
+            });
+
+            if (numbersInRow.length > 0) {
+                let targetValue = numbersInRow[0];
+
+                // 🌟 الفلتر الذكي: إذا كان الرقم هو 100000 تماماً، يتم تجاهله والاحتفاظ بالرقم السابق المكتوب على الشاشة
+                if (targetValue !== 100000) {
+                    if (rowText.includes("مصر") || rowText.includes("egy")) {
+                        tempEgypt = targetValue;
+                        foundData = true;
+                    } else if (rowText.includes("أمريكا") || rowText.includes("امريكا") || rowText.includes("usa") || rowText.includes("usd")) {
+                        tempUsa = targetValue;
+                        foundData = true;
+                    } else if (rowText.includes("قطر") || rowText.includes("qar") || rowText.includes("qatar")) {
+                        tempQatar = targetValue;
+                        foundData = true;
+                    }
+                } else {
+                    // إذا كان الرقم 100000 نعتبر أننا وجدنا بيانات ولكننا نرفض تحديثها لحين استقرار سيرفر جوجل
+                    foundData = true; 
+                }
+            }
+        });
+
+        if (foundData) {
+            const elements = ["egypt", "usa", "qatar"];
+            const values = [tempEgypt, tempUsa, tempQatar];
+            
+            elements.forEach((id, index) => {
+                const el = document.getElementById(id);
+                // التأكد من عدم كتابة 0 أو نصوص جاري التحميل إذا كان هناك رقم قديم صحيح
+                if (values[index] !== 0) {
+                    el.classList.remove("loading-text");
+                    el.textContent = values[index].toLocaleString();
+                }
+            });
+        }
+
+    } catch (err) {
+        console.error("Error keeping current numbers:", err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("refreshBtn").addEventListener("click", loadData);
+    loadData();
+    setInterval(loadData, 15000); 
+});
+</script>
+
+</body>
+</html>
