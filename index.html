@@ -390,7 +390,7 @@ async function loadData() {
     isFetching = true;
     
     try {
-        // تم تعديل السطر بالأسفل لإضافة ستايل لمنع كاش الموبايل وتسريع الجلب فوراً
+        // تم كسر الكاش بإضافة الوقت لضمان التحديث المطلق وسرعة عالية
         const response = await fetch(`${apiUrl}?v=${Date.now()}`);
         if (!response.ok) throw new Error("Network issue");
         
@@ -459,14 +459,16 @@ async function loadData() {
 
 async function manualRefresh() {
     const btn = document.getElementById('refreshBtn');
+    if (btn.classList.contains('spinning')) return; // حماية من التكرار والتهنيج
+    
     btn.classList.add('spinning');
     await loadData();
     setTimeout(() => { btn.classList.remove('spinning'); }, 600);
 }
 
+// تشغيل جلب البيانات مرة واحدة فقط عند فتح الصفحة لسرعة قصوى واستقرار كامل
 document.addEventListener("DOMContentLoaded", () => {
-    loadData();
-    setInterval(loadData, 2000); 
+    loadData(); 
 });
 </script>
 </body>
