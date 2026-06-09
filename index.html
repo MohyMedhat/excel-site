@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
     :root {
@@ -27,16 +27,6 @@
         --gold-glow: rgba(245, 158, 11, 0.3);
         --summary-glow: rgba(56, 189, 248, 0.15);
     }
-
-    /* --- التعديل الجوهري لتثبيت الأرقام --- */
-    .numeric-value, .cash-amount, .summary-value {
-        font-variant-numeric: tabular-nums !important;
-        font-feature-settings: "tnum" 1 !important;
-        white-space: nowrap !important;
-        display: inline-block;
-        font-family: 'Cairo', sans-serif !important;
-    }
-    /* ------------------------------------- */
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -136,7 +126,6 @@
         backdrop-filter: blur(10px);
         transition: all 0.3s ease;
     }
-    
     .summary-card:hover {
         background: rgba(255, 255, 255, 0.04);
         border-color: #38bdf8;
@@ -245,3 +234,248 @@
 </style>
 </head>
 <body>
+
+<div class="header">
+    <div class="brand">
+        <div class="live-status">
+            <span class="live-dot"></span>
+            <span>بث مباشر | واجهة الأصول الذكية الموحدة</span>
+        </div>
+        <h1>لوحة المراقبة والتحليل المالي الذكي</h1>
+    </div>
+    <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        <span>تحديث فوري</span>
+    </button>
+</div>
+
+<div class="container">
+    
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="summary-info">
+                <div class="summary-label">إجمالي المحفظة بالجنيه الكلي</div>
+                <div class="summary-value" id="grand_total_egp">--</div>
+            </div>
+            <span class="summary-badge">EGP</span>
+        </div>
+        <div class="summary-card">
+            <div class="summary-info">
+                <div class="summary-label">إجمالي المحفظة بالدولار الكلي</div>
+                <div class="summary-value" id="grand_total_usd">--</div>
+            </div>
+            <span class="summary-badge">USD</span>
+        </div>
+        <div class="summary-card">
+            <div class="summary-info">
+                <div class="summary-label">إجمالي المحفظة بالريال الكلي</div>
+                <div class="summary-value" id="grand_total_qar">--</div>
+            </div>
+            <span class="summary-badge">QAR</span>
+        </div>
+    </div>
+
+    <div class="grid-cards">
+        
+        <div class="card card-egypt">
+            <span class="currency-badge">EGP / ج.م</span>
+            <div class="card-content">
+                <div class="flag-wrapper">
+                    <img src="https://flagcdn.com/w160/eg.png" alt="مصر">
+                </div>
+                <div class="country-title">الرصيد بالجنيه المصري</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_egypt">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">كاش مصري:</span>
+                        <span class="cash-amount" id="cash_egypt">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card card-usa">
+            <span class="currency-badge">USD / $</span>
+            <div class="card-content">
+                <div class="flag-wrapper">
+                    <img src="https://flagcdn.com/w160/us.png" alt="أمريكا">
+                </div>
+                <div class="country-title">الرصيد بالدولار الأمريكي</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_usa">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">الرصيد بالجنيه المصري:</span>
+                        <span class="cash-amount" id="cash_usa">--</span>
+                    </div>
+                    <div class="cash-sub-box" style="margin-top: 5px; padding-top: 5px; border: none;">
+                        <span class="cash-label">سعر الدولار الآن:</span>
+                        <span class="cash-amount" id="usd_rate" style="color: #3b82f6;">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card card-qatar">
+            <span class="currency-badge">QAR / ر.ق</span>
+            <div class="card-content">
+                <div class="flag-wrapper">
+                    <img src="https://flagcdn.com/w160/qa.png" alt="قطر">
+                </div>
+                <div class="country-title">الرصيد بالريال القطري</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_qatar">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">الرصيد بالجنيه المصري:</span>
+                        <span class="cash-amount" id="cash_qatar">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-gold">
+            <span class="currency-badge">GOLD / جرام</span>
+            <div class="card-content">
+                <div class="flag-wrapper gold-icon">
+                    <img src="https://img.icons8.com/fluent/96/gold-bars.png" alt="ذهب">
+                </div>
+                <div class="country-title">جرامات الذهب</div>
+                <div class="values-container">
+                    <div class="numeric-value" id="total_gold_grams">--</div>
+                    <div class="cash-sub-box">
+                        <span class="cash-label">إجمالي قيمة الذهب:</span>
+                        <span class="cash-amount" id="total_gold_value">--</span>
+                    </div>
+                    <div class="cash-sub-box" style="margin-top: 5px; padding-top: 5px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+                        <span class="cash-label">سعر عيار 21:</span>
+                        <span class="cash-amount" id="gold_rate_21" style="color: #f59e0b;">--</span>
+                    </div>
+                    <div class="cash-sub-box" style="margin-top: 3px; padding-top: 0; border: none;">
+                        <span class="cash-label">سعر عيار 18:</span>
+                        <span class="cash-amount" id="gold_rate_18" style="color: #f59e0b;">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// فصل الرابط الأساسي لتطبيق فكرة تشتيت الكاش بدقة
+const baseApiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
+
+let isFetching = false;
+
+function smoothUpdate(elementId, value, isDecimal = false) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    let formattedValue;
+    let num = Number(value);
+    
+    if (isNaN(num)) {
+        formattedValue = value;
+    } else if (isDecimal || elementId === 'total_gold_grams' || elementId === 'usd_rate') {
+        formattedValue = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } else {
+        formattedValue = Math.round(num).toLocaleString('en-US');
+    }
+    
+    if (element.textContent !== formattedValue) {
+        element.classList.add('value-update');
+        setTimeout(() => {
+            element.textContent = formattedValue;
+            element.classList.remove('value-update');
+        }, 200);
+    }
+}
+
+async function loadData() {
+    if (isFetching) return; 
+    isFetching = true;
+    
+    try {
+        // 🔥 الحل الجذري للكاش: توليد رابط فريد كل ثانيتين بالملي ثانية الحالية لمنع التخزين الميت في المتصفح
+        const freshUrl = `${baseApiUrl}?_=${new Date().getTime()}`;
+        
+        const response = await fetch(freshUrl);
+        if (!response.ok) throw new Error("Network issue");
+        
+        const matrix = await response.json(); 
+
+        for (let r = 0; r < matrix.length; r++) {
+            if (!matrix[r] || matrix[r].length < 2) continue;
+            
+            let cellText = String(matrix[r][0]).replace(/\s+/g, '').trim().toLowerCase();
+            let num = Number(matrix[r][1]);
+            
+            if (isNaN(num)) continue;
+
+            // الفحص الصارم بالمطابقة التامة لمنع التداخل بين الكاش والإجمالي
+            if (cellText === "اجماليمصر" || cellText === "إجماليمصر") {
+                smoothUpdate('total_egypt', num);
+            } 
+            else if (cellText === "اجماليدولار" || cellText === "إجماليدولار") {
+                smoothUpdate('total_usa', num);
+            } 
+            else if (cellText === "اجماليريال" || cellText === "إجماليريال") {
+                smoothUpdate('total_qatar', num);
+            }
+            else if (cellText === "مصري" || cellText === "مصر") {
+                smoothUpdate('cash_egypt', num);
+            } 
+            else if (cellText === "دولار") {
+                smoothUpdate('cash_usa', num);
+            } 
+            else if (cellText === "ريال" || cellText === "قطري") {
+                smoothUpdate('cash_qatar', num);
+            }
+            else if (cellText === "جراماتدهب" || cellText === "جراماتذهب") {
+                smoothUpdate('total_gold_grams', num, true); 
+            }
+            else if (cellText === "دهب" || cellText === "ذهب") {
+                smoothUpdate('total_gold_value', num);
+            }
+            else if (cellText === "سعرالدولارالان" || cellText === "سعرالدولارالأن") {
+                smoothUpdate('usd_rate', num, true);
+            }
+            else if (cellText === "عيار21" || cellText === "عيار_21") {
+                smoothUpdate('gold_rate_21', num);
+            }
+            else if (cellText === "عيار18" || cellText === "عيار_18") {
+                smoothUpdate('gold_rate_18', num);
+            }
+            else if (cellText === "كليهمصر" || cellText === "كليةمصر") {
+                smoothUpdate('grand_total_egp', num);
+            }
+            else if (cellText === "كليهدولار" || cellText === "كليةدولار") {
+                smoothUpdate('grand_total_usd', num);
+            }
+            else if (cellText === "كليهريال" || cellText === "كليةريال") {
+                smoothUpdate('grand_total_qar', num);
+            }
+        }
+
+    } catch (err) {
+        console.error("Dashboard error:", err);
+    } finally {
+        isFetching = false;
+    }
+}
+
+async function manualRefresh() {
+    const btn = document.getElementById('refreshBtn');
+    if (btn.classList.contains('spinning')) return;
+    
+    btn.classList.add('spinning');
+    await loadData();
+    setTimeout(() => { btn.classList.remove('spinning'); }, 600);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadData();
+    setInterval(loadData, 2000); 
+});
+</script>
+</body>
+</html>
