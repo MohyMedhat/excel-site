@@ -361,7 +361,6 @@
 </div>
 
 <script>
-// الرابط الجديد الشغال والمفعل 100%
 const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
 
 let isFetching = false;
@@ -466,7 +465,6 @@ async function manualRefresh() {
     setTimeout(() => { btn.classList.remove('spinning'); }, 600);
 }
 
-// التحديث كل ثانيتين طيران زي الأول بالظبط
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
     setInterval(loadData, 2000); 
