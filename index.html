@@ -26,6 +26,8 @@
         --gold-color: #f59e0b;
         --gold-glow: rgba(245, 158, 11, 0.3);
         --summary-glow: rgba(56, 189, 248, 0.15);
+        --up-color: #10b981;
+        --down-color: #ef4444;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,7 +58,7 @@
         z-index: 100;
     }
 
-    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 
     .brand h1 {
         font-size: 22px;
@@ -86,6 +88,26 @@
         border-radius: 50%;
         animation: pulse 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
     }
+
+    /* --- آخر تحديث --- */
+    .last-update-bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border-color);
+        padding: 5px 14px;
+        border-radius: 20px;
+    }
+    .last-update-bar span#last_update_time {
+        color: #94a3b8;
+        font-weight: 800;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
     .refresh-btn {
         background: rgba(255, 255, 255, 0.03);
@@ -217,6 +239,65 @@
     .cash-label { color: var(--text-secondary); font-weight: 600; }
     .cash-amount { font-weight: 800; color: #e2e8f0; }
 
+    /* --- سهم التغيير --- */
+    .price-change-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .change-arrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        font-weight: 800;
+        padding: 4px 12px;
+        border-radius: 20px;
+        transition: all 0.4s ease;
+    }
+
+    .change-arrow.up {
+        color: var(--up-color);
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .change-arrow.down {
+        color: var(--down-color);
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .change-arrow.neutral {
+        color: #94a3b8;
+        background: rgba(148, 163, 184, 0.07);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .change-arrow svg {
+        transition: transform 0.3s ease;
+    }
+
+    .change-arrow.up svg { transform: rotate(0deg); }
+    .change-arrow.down svg { transform: rotate(180deg); }
+
+    /* Flash animation on value change */
+    @keyframes flashGreen {
+        0% { background: rgba(16, 185, 129, 0.0); }
+        30% { background: rgba(16, 185, 129, 0.15); }
+        100% { background: rgba(16, 185, 129, 0.0); }
+    }
+    @keyframes flashRed {
+        0% { background: rgba(239, 68, 68, 0.0); }
+        30% { background: rgba(239, 68, 68, 0.15); }
+        100% { background: rgba(239, 68, 68, 0.0); }
+    }
+    .flash-up { animation: flashGreen 0.8s ease; }
+    .flash-down { animation: flashRed 0.8s ease; }
+
     .value-update { opacity: 0.4; transform: scale(0.96); }
 
     @keyframes pulse {
@@ -228,6 +309,7 @@
 
     @media (max-width: 768px) {
         .header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+        .header-left { justify-content: center; }
         .summary-grid { grid-template-columns: 1fr; gap: 15px; }
         .grid-cards { grid-template-columns: 1fr; }
     }
@@ -243,10 +325,17 @@
         </div>
         <h1>لوحة المراقبة والتحليل المالي الذكي</h1>
     </div>
-    <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-        <span>تحديث فوري</span>
-    </button>
+    <div class="header-left">
+        <!-- آخر تحديث -->
+        <div class="last-update-bar">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            آخر تحديث:&nbsp;<span id="last_update_time">--</span>
+        </div>
+        <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>تحديث فوري</span>
+        </button>
+    </div>
 </div>
 
 <div class="container">
@@ -294,7 +383,7 @@
             </div>
         </div>
         
-        <div class="card card-usa">
+        <div class="card card-usa" id="card_usa">
             <span class="currency-badge">USD / $</span>
             <div class="card-content">
                 <div class="flag-wrapper">
@@ -310,6 +399,13 @@
                     <div class="cash-sub-box" style="margin-top: 5px; padding-top: 5px; border: none;">
                         <span class="cash-label">سعر الدولار الآن:</span>
                         <span class="cash-amount" id="usd_rate" style="color: #3b82f6;">--</span>
+                    </div>
+                    <!-- سهم الدولار -->
+                    <div class="price-change-row">
+                        <span class="change-arrow neutral" id="usd_arrow">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
+                            <span id="usd_change_text">لا يوجد تغيير</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -332,7 +428,7 @@
             </div>
         </div>
 
-        <div class="card card-gold">
+        <div class="card card-gold" id="card_gold">
             <span class="currency-badge">GOLD / جرام</span>
             <div class="card-content">
                 <div class="flag-wrapper gold-icon">
@@ -353,6 +449,22 @@
                         <span class="cash-label">سعر عيار 18:</span>
                         <span class="cash-amount" id="gold_rate_18" style="color: #f59e0b;">--</span>
                     </div>
+                    <!-- سهم عيار 21 -->
+                    <div class="price-change-row" style="margin-top: 10px;">
+                        <span style="font-size:11px; color: var(--text-secondary); font-weight:700; margin-left: 6px;">عيار 21</span>
+                        <span class="change-arrow neutral" id="gold_arrow">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
+                            <span id="gold_change_text">لا تغيير</span>
+                        </span>
+                    </div>
+                    <!-- سهم عيار 18 -->
+                    <div class="price-change-row" style="margin-top: 6px;">
+                        <span style="font-size:11px; color: var(--text-secondary); font-weight:700; margin-left: 6px;">عيار 18</span>
+                        <span class="change-arrow neutral" id="gold18_arrow">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
+                            <span id="gold18_change_text">لا تغيير</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -361,10 +473,48 @@
 </div>
 
 <script>
-// تم ربط رابط الـ Web App الخاص بك مباشرة هنا
 const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
 
 let isFetching = false;
+
+// القيم السابقة لحساب التغيير
+let prevUsdRate = null;
+let prevGoldRate21 = null;
+let prevGoldRate18 = null;
+
+// تحديث سهم التغيير
+function updateArrow(arrowId, textId, cardId, newVal, prevVal) {
+    const arrow = document.getElementById(arrowId);
+    const text = document.getElementById(textId);
+    const card = document.getElementById(cardId);
+    if (!arrow || !text || prevVal === null || prevVal === newVal) return;
+
+    const diff = newVal - prevVal;
+    const diffAbs = Math.abs(diff).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    // إزالة الكلاسات القديمة
+    arrow.classList.remove('up', 'down', 'neutral');
+    card.classList.remove('flash-up', 'flash-down');
+
+
+
+    if (diff === 0 || diffAbs === "0.00") return; // نفس السعر أو فرق صغير جداً
+
+    if (diff > 0) {
+        arrow.classList.add('up');
+        text.textContent = `ارتفع +${diffAbs}`;
+        card.classList.add('flash-up');
+    } else {
+        arrow.classList.add('down');
+        text.textContent = `انخفض -${diffAbs}`;
+        card.classList.add('flash-down');
+    }
+
+    // إزالة الـ flash بعد انتهاء الأنيميشن
+    setTimeout(() => {
+        card.classList.remove('flash-up', 'flash-down');
+    }, 900);
+}
 
 function smoothUpdate(elementId, value, isDecimal = false) {
     const element = document.getElementById(elementId);
@@ -386,6 +536,15 @@ function smoothUpdate(elementId, value, isDecimal = false) {
     }
 }
 
+function updateLastUpdateTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const el = document.getElementById('last_update_time');
+    if (el) el.textContent = `${hours}:${minutes}:${seconds}`;
+}
+
 async function loadData() {
     if (isFetching) return; 
     isFetching = true;
@@ -395,6 +554,10 @@ async function loadData() {
         if (!response.ok) throw new Error("Network issue");
         
         const matrix = await response.json(); 
+
+        let newUsdRate = null;
+        let newGoldRate21 = null;
+        let newGoldRate18 = null;
 
         for (let r = 0; r < matrix.length; r++) {
             if (!matrix[r] || matrix[r].length < 2) continue;
@@ -428,18 +591,18 @@ async function loadData() {
             else if (cellText === "دهب" || cellText === "ذهب") {
                 smoothUpdate('total_gold_value', num);
             }
-            
-            // قراءة "سعر الدولار الان" بالصياغتين وإزالة المسافات تلقائياً
             else if (cellText === "سعرالدولارالان" || cellText === "سعرالدولارالأن") {
+                newUsdRate = num;
                 smoothUpdate('usd_rate', num, true);
             }
             else if (cellText === "عيار21" || cellText === "عيار_21") {
+                newGoldRate21 = num;
                 smoothUpdate('gold_rate_21', num);
             }
             else if (cellText === "عيار18" || cellText === "عيار_18") {
+                newGoldRate18 = num;
                 smoothUpdate('gold_rate_18', num);
             }
-            
             else if (cellText === "كليهمصر" || cellText === "كليةمصر") {
                 smoothUpdate('grand_total_egp', num);
             }
@@ -450,6 +613,23 @@ async function loadData() {
                 smoothUpdate('grand_total_qar', num);
             }
         }
+
+        // تحديث الأسهم بعد قراءة كل البيانات
+        if (newUsdRate !== null) {
+            updateArrow('usd_arrow', 'usd_change_text', 'card_usa', newUsdRate, prevUsdRate);
+            prevUsdRate = newUsdRate;
+        }
+        if (newGoldRate21 !== null) {
+            updateArrow('gold_arrow', 'gold_change_text', 'card_gold', newGoldRate21, prevGoldRate21);
+            prevGoldRate21 = newGoldRate21;
+        }
+        if (newGoldRate18 !== null) {
+            updateArrow('gold18_arrow', 'gold18_change_text', 'card_gold', newGoldRate18, prevGoldRate18);
+            prevGoldRate18 = newGoldRate18;
+        }
+
+        // تحديث وقت آخر تحديث ناجح
+        updateLastUpdateTime();
 
     } catch (err) {
         console.error("Dashboard error:", err);
