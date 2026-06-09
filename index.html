@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
     :root {
@@ -365,22 +365,15 @@ const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8
 
 let isFetching = false;
 
-// التعديل الآمن الوحيد: تقريب الأرقام الكبيرة من غير لمس شروط الفحص نهائياً
 function smoothUpdate(elementId, value, isDecimal = false) {
     const element = document.getElementById(elementId);
     if (!element) return;
     
     let formattedValue;
-    let num = Number(value);
-    
-    if (isNaN(num)) {
-        formattedValue = value;
-    } else if (isDecimal || elementId === 'total_gold_grams' || elementId === 'usd_rate') {
-        // لو سعر دولار أو جرامات ذهب يظهر كسر خفيف (رقمين عشريين)
-        formattedValue = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (isDecimal) {
+        formattedValue = Number(value).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
     } else {
-        // الأرصدة والـ Grand Totals تتقرب لأقرب رقم صحيح بفواصل آلاف مريحة للعين وثابتة
-        formattedValue = Math.round(num).toLocaleString('en-US');
+        formattedValue = Math.round(value).toLocaleString('en-US');
     }
     
     if (element.textContent !== formattedValue) {
@@ -435,6 +428,7 @@ async function loadData() {
                 smoothUpdate('total_gold_value', num);
             }
             
+            // قراءة "سعر الدولار الان" بالصياغتين (بألف مد أو عادية) مع إزالة المسافات تلقائياً
             else if (cellText === "سعرالدولارالان" || cellText === "سعرالدولارالأن") {
                 smoothUpdate('usd_rate', num, true);
             }
@@ -465,8 +459,6 @@ async function loadData() {
 
 async function manualRefresh() {
     const btn = document.getElementById('refreshBtn');
-    if (btn.classList.contains('spinning')) return;
-    
     btn.classList.add('spinning');
     await loadData();
     setTimeout(() => { btn.classList.remove('spinning'); }, 600);
