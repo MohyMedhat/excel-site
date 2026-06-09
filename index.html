@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
     :root {
@@ -361,8 +361,8 @@
 </div>
 
 <script>
-// فصل الرابط الأساسي لتطبيق فكرة تشتيت الكاش بدقة
-const baseApiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
+// تم ربط رابط الـ Web App الخاص بك مباشرة هنا
+const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
 
 let isFetching = false;
 
@@ -371,14 +371,10 @@ function smoothUpdate(elementId, value, isDecimal = false) {
     if (!element) return;
     
     let formattedValue;
-    let num = Number(value);
-    
-    if (isNaN(num)) {
-        formattedValue = value;
-    } else if (isDecimal || elementId === 'total_gold_grams' || elementId === 'usd_rate') {
-        formattedValue = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (isDecimal) {
+        formattedValue = Number(value).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
     } else {
-        formattedValue = Math.round(num).toLocaleString('en-US');
+        formattedValue = Math.round(value).toLocaleString('en-US');
     }
     
     if (element.textContent !== formattedValue) {
@@ -395,10 +391,7 @@ async function loadData() {
     isFetching = true;
     
     try {
-        // 🔥 الحل الجذري للكاش: توليد رابط فريد كل ثانيتين بالملي ثانية الحالية لمنع التخزين الميت في المتصفح
-        const freshUrl = `${baseApiUrl}?_=${new Date().getTime()}`;
-        
-        const response = await fetch(freshUrl);
+        const response = await fetch(apiUrl);
         if (!response.ok) throw new Error("Network issue");
         
         const matrix = await response.json(); 
@@ -411,7 +404,6 @@ async function loadData() {
             
             if (isNaN(num)) continue;
 
-            // الفحص الصارم بالمطابقة التامة لمنع التداخل بين الكاش والإجمالي
             if (cellText === "اجماليمصر" || cellText === "إجماليمصر") {
                 smoothUpdate('total_egypt', num);
             } 
@@ -436,6 +428,8 @@ async function loadData() {
             else if (cellText === "دهب" || cellText === "ذهب") {
                 smoothUpdate('total_gold_value', num);
             }
+            
+            // قراءة "سعر الدولار الان" بالصياغتين وإزالة المسافات تلقائياً
             else if (cellText === "سعرالدولارالان" || cellText === "سعرالدولارالأن") {
                 smoothUpdate('usd_rate', num, true);
             }
@@ -445,6 +439,7 @@ async function loadData() {
             else if (cellText === "عيار18" || cellText === "عيار_18") {
                 smoothUpdate('gold_rate_18', num);
             }
+            
             else if (cellText === "كليهمصر" || cellText === "كليةمصر") {
                 smoothUpdate('grand_total_egp', num);
             }
@@ -465,8 +460,6 @@ async function loadData() {
 
 async function manualRefresh() {
     const btn = document.getElementById('refreshBtn');
-    if (btn.classList.contains('spinning')) return;
-    
     btn.classList.add('spinning');
     await loadData();
     setTimeout(() => { btn.classList.remove('spinning'); }, 600);
