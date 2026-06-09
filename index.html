@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لوحة الأصول الذكية المزدوجة | LIVE DASHBOARD</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
 <style>
     :root {
         --bg-main: #060814;
@@ -12,76 +16,232 @@
         --border-color: rgba(255, 255, 255, 0.06);
         --text-primary: #f8fafc;
         --text-secondary: #64748b;
+        
+        --egypt-color: #ff4a4a;
+        --egypt-glow: rgba(255, 74, 74, 0.2);
+        --usa-color: #3b82f6;
+        --usa-glow: rgba(59, 130, 246, 0.2);
+        --qatar-color: #a855f7;
+        --qatar-glow: rgba(168, 85, 247, 0.2);
+        --gold-color: #f59e0b;
+        --gold-glow: rgba(245, 158, 11, 0.3);
+        --summary-glow: rgba(56, 189, 248, 0.15);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Cairo', sans-serif; background-color: var(--bg-main); color: var(--text-primary); direction: rtl; min-height: 100vh; }
-    
-    /* هذا التعديل يضمن ثبات الأرقام ومنع التزحزح على الموبايل والـ PC */
+
+    /* --- التعديل الجوهري لتثبيت الأرقام --- */
     .numeric-value, .cash-amount, .summary-value {
-        font-family: 'Cairo', sans-serif !important;
         font-variant-numeric: tabular-nums !important;
         font-feature-settings: "tnum" 1 !important;
         white-space: nowrap !important;
         display: inline-block;
+        font-family: 'Cairo', sans-serif !important;
+    }
+    /* ------------------------------------- */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: 'Cairo', sans-serif;
+        background-color: var(--bg-main);
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+        color: var(--text-primary);
+        direction: rtl;
+        min-height: 100vh;
+        overflow-x: hidden;
     }
 
-    .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(6, 8, 20, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 5%;
+        background: rgba(6, 8, 20, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+
+    .brand h1 {
+        font-size: 22px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #38bdf8 0%, #c084fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .live-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #10b981;
+    }
+
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #10b981;
+        border-radius: 50%;
+        animation: pulse 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    .refresh-btn {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        padding: 10px 20px;
+        font-family: 'Cairo', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        border-radius: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .refresh-btn:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
+    .refresh-btn.spinning svg { animation: spin 1s linear infinite; }
+
     .container { max-width: 1300px; margin: 40px auto; padding: 0 24px; }
+    
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .summary-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 20px 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    
+    .summary-card:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: #38bdf8;
+        box-shadow: 0 15px 30px -10px var(--summary-glow);
+        transform: translateY(-2px);
+    }
+    .summary-info .summary-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        margin-bottom: 4px;
+    }
+    .summary-info .summary-value {
+        font-size: 26px;
+        font-weight: 900;
+        color: #ffffff;
+    }
+    .summary-badge {
+        font-size: 11px;
+        font-weight: 800;
+        padding: 4px 12px;
+        border-radius: 12px;
+        background: rgba(56, 189, 248, 0.08);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
     .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 28px; padding: 35px 25px; }
-    .flag-wrapper { width: 85px; height: 85px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px; border: 2px solid rgba(255, 255, 255, 0.08); }
+
+    .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--border-color);
+        border-radius: 28px;
+        padding: 35px 25px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-egypt:hover { border-color: var(--egypt-color); box-shadow: 0 20px 40px -12px var(--egypt-glow); transform: translateY(-5px); }
+    .card-usa:hover { border-color: var(--usa-color); box-shadow: 0 20px 40px -12px var(--usa-glow); transform: translateY(-5px); }
+    .card-qatar:hover { border-color: var(--qatar-color); box-shadow: 0 20px 40px -12px var(--qatar-glow); transform: translateY(-5px); }
+    .card-gold:hover { border-color: var(--gold-color); box-shadow: 0 20px 40px -12px var(--gold-glow); transform: translateY(-5px); }
+
+    .currency-badge { position: absolute; top: 20px; left: 20px; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 30px; }
+    .card-egypt .currency-badge { color: var(--egypt-color); background: rgba(255, 74, 74, 0.05); }
+    .card-usa .currency-badge { color: var(--usa-color); background: rgba(59, 130, 246, 0.05); }
+    .card-qatar .currency-badge { color: var(--qatar-color); background: rgba(168, 85, 247, 0.05); }
+    .card-gold .currency-badge { color: var(--gold-color); background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); }
+
+    .card-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+    .flag-wrapper { 
+        width: 85px; 
+        height: 85px; 
+        border-radius: 50%; 
+        overflow: hidden;
+        margin-bottom: 20px; 
+        border: 2px solid rgba(255, 255, 255, 0.08); 
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.4s ease;
+    }
+    
+    .card:hover .flag-wrapper { transform: scale(1.08); }
     .flag-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-    .numeric-value { font-size: 38px; font-weight: 900; color: #ffffff; margin-top: 10px; }
-    .cash-sub-box { margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; font-size: 13px; }
-    .value-update { opacity: 0.4; }
+    
+    .flag-wrapper.gold-icon { 
+        background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); 
+        border-color: rgba(245, 158, 11, 0.3);
+    }
+    .flag-wrapper.gold-icon img { width: 75%; height: 75%; object-fit: contain; }
+
+    .country-title { font-size: 16px; font-weight: 700; color: var(--text-secondary); margin-bottom: 5px; }
+
+    .values-container { display: flex; flex-direction: column; align-items: center; margin-top: 10px; width: 100%; }
+    .numeric-value { font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; line-height: 1.1; transition: all 0.2s ease; }
+    
+    .card-egypt .numeric-value { text-shadow: 0 0 25px rgba(255, 74, 74, 0.3); }
+    .card-usa .numeric-value { text-shadow: 0 0 25px rgba(59, 130, 246, 0.3); }
+    .card-qatar .numeric-value { text-shadow: 0 0 25px rgba(168, 85, 247, 0.3); }
+    .card-gold .numeric-value { text-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
+
+    .cash-sub-box { margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); width: 85%; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .cash-label { color: var(--text-secondary); font-weight: 600; }
+    .cash-amount { font-weight: 800; color: #e2e8f0; }
+
+    .value-update { opacity: 0.4; transform: scale(0.96); }
+
+    @keyframes pulse {
+        0% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    @media (max-width: 768px) {
+        .header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+        .summary-grid { grid-template-columns: 1fr; gap: 15px; }
+        .grid-cards { grid-template-columns: 1fr; }
+    }
 </style>
 </head>
 <body>
-
-<div class="header"><h1>لوحة المراقبة والتحليل المالي الذكي</h1></div>
-<div class="container">
-    <div class="grid-cards">
-        <div class="card">
-            <div class="flag-wrapper"><img src="https://flagcdn.com/w160/eg.png" alt="مصر"></div>
-            <div class="country-title">الرصيد بالجنيه المصري</div>
-            <div class="numeric-value" id="total_egypt">--</div>
-            <div class="cash-sub-box"><span>كاش مصري:</span><span class="cash-amount" id="cash_egypt">--</span></div>
-        </div>
-        </div>
-</div>
-
-<script>
-const baseApiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
-
-function smoothUpdate(id, val, isDec = false) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    let num = Number(val);
-    let formatted = isDec ? num.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) : Math.round(num).toLocaleString('en-US');
-    if (el.textContent !== formatted) {
-        el.classList.add('value-update');
-        setTimeout(() => { el.textContent = formatted; el.classList.remove('value-update'); }, 200);
-    }
-}
-
-async function loadData() {
-    try {
-        const response = await fetch(`${baseApiUrl}?_=${new Date().getTime()}`);
-        const matrix = await response.json();
-        matrix.forEach(row => {
-            if (row.length < 2) return;
-            let key = String(row[0]).replace(/\s+/g, '').toLowerCase();
-            let val = row[1];
-            
-            // تحديث القيم
-            if (key === "اجماليمصر") smoothUpdate('total_egypt', val);
-            else if (key === "مصر") smoothUpdate('cash_egypt', val);
-            // ... (أكمل باقي الربط لباقي الخانات بنفس الطريقة)
-        });
-    } catch (e) { console.error("Error:", e); }
-}
-setInterval(loadData, 2000);
-loadData();
-</script>
-</body>
-</html>
