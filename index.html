@@ -89,7 +89,6 @@
         animation: pulse 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
     }
 
-    /* --- آخر تحديث --- */
     .last-update-bar {
         display: flex;
         align-items: center;
@@ -239,7 +238,6 @@
     .cash-label { color: var(--text-secondary); font-weight: 600; }
     .cash-amount { font-weight: 800; color: #e2e8f0; }
 
-    /* --- سهم التغيير --- */
     .price-change-row {
         display: flex;
         align-items: center;
@@ -277,14 +275,10 @@
         border: 1px solid rgba(148, 163, 184, 0.15);
     }
 
-    .change-arrow svg {
-        transition: transform 0.3s ease;
-    }
-
+    .change-arrow svg { transition: transform 0.3s ease; }
     .change-arrow.up svg { transform: rotate(0deg); }
     .change-arrow.down svg { transform: rotate(180deg); }
 
-    /* Flash animation on value change */
     @keyframes flashGreen {
         0% { background: rgba(16, 185, 129, 0.0); }
         30% { background: rgba(16, 185, 129, 0.15); }
@@ -326,7 +320,6 @@
         <h1>لوحة المراقبة والتحليل المالي الذكي</h1>
     </div>
     <div class="header-left">
-        <!-- آخر تحديث -->
         <div class="last-update-bar">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             آخر تحديث:&nbsp;<span id="last_update_time">--</span>
@@ -334,6 +327,10 @@
         <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             <span>تحديث فوري</span>
+        </button>
+        <button class="refresh-btn" id="resetBtn" onclick="resetArrows()" style="border-color: rgba(239,68,68,0.3); color: #ef4444;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <span>تصفير الأسهم</span>
         </button>
     </div>
 </div>
@@ -400,7 +397,6 @@
                         <span class="cash-label">سعر الدولار الآن:</span>
                         <span class="cash-amount" id="usd_rate" style="color: #3b82f6;">--</span>
                     </div>
-                    <!-- سهم الدولار -->
                     <div class="price-change-row">
                         <span class="change-arrow neutral" id="usd_arrow">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
@@ -411,7 +407,8 @@
             </div>
         </div>
         
-        <div class="card card-qatar">
+        <!-- ✅ التعديل هنا: إضافة id="card_qatar" -->
+        <div class="card card-qatar" id="card_qatar">
             <span class="currency-badge">QAR / ر.ق</span>
             <div class="card-content">
                 <div class="flag-wrapper">
@@ -428,7 +425,6 @@
                         <span class="cash-label">سعر الريال الآن:</span>
                         <span class="cash-amount" id="qar_rate" style="color: #a855f7;">--</span>
                     </div>
-                    <!-- سهم الريال -->
                     <div class="price-change-row">
                         <span class="change-arrow neutral" id="qar_arrow">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
@@ -460,7 +456,6 @@
                         <span class="cash-label">سعر عيار 18:</span>
                         <span class="cash-amount" id="gold_rate_18" style="color: #f59e0b;">--</span>
                     </div>
-                    <!-- سهم عيار 21 -->
                     <div class="price-change-row" style="margin-top: 10px; gap: 12px;">
                         <span style="font-size:11px; color: var(--text-secondary); font-weight:700;">عيار 21</span>
                         <span class="change-arrow neutral" id="gold_arrow">
@@ -485,13 +480,11 @@ const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8
 
 let isFetching = false;
 
-// تحميل القيم السابقة من localStorage عشان تفضل حتى لو أغلقت المتصفح
 let prevUsdRate    = parseFloat(localStorage.getItem('prev_usd'))    || null;
 let prevQarRate    = parseFloat(localStorage.getItem('prev_qar'))    || null;
 let prevGoldRate21 = parseFloat(localStorage.getItem('prev_gold21')) || null;
 let prevGoldRate18 = parseFloat(localStorage.getItem('prev_gold18')) || null;
 
-// تحديث سهم التغيير
 function updateArrow(arrowId, cardId, newVal, prevVal) {
     const arrow = document.getElementById(arrowId);
     const card = document.getElementById(cardId);
@@ -500,10 +493,8 @@ function updateArrow(arrowId, cardId, newVal, prevVal) {
     const diff = newVal - prevVal;
     const diffAbs = Math.abs(diff).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    // لو نفس السعر، السهم يفضل زي ما هو بدون تغيير
     if (diff === 0 || diffAbs === "0.00") return;
 
-    // تحديث اللون والقيمة بس لو في تغيير حقيقي
     arrow.classList.remove('up', 'down', 'neutral');
     card.classList.remove('flash-up', 'flash-down');
 
@@ -522,7 +513,6 @@ function updateArrow(arrowId, cardId, newVal, prevVal) {
         localStorage.setItem(arrowId + '_val', '-' + diffAbs);
     }
 
-    // الـ flash بيروح بس السهم يفضل بلونه
     setTimeout(() => { card.classList.remove('flash-up', 'flash-down'); }, 900);
 }
 
@@ -629,7 +619,6 @@ async function loadData() {
             }
         }
 
-        // تحديث الأسهم بعد قراءة كل البيانات
         if (newUsdRate !== null) {
             updateArrow('usd_arrow', 'card_usa', newUsdRate, prevUsdRate);
             prevUsdRate = newUsdRate;
@@ -651,7 +640,6 @@ async function loadData() {
             localStorage.setItem('prev_gold18', newGoldRate18);
         }
 
-        // تحديث وقت آخر تحديث ناجح
         updateLastUpdateTime();
 
     } catch (err) {
@@ -659,6 +647,29 @@ async function loadData() {
     } finally {
         isFetching = false;
     }
+}
+
+function resetArrows() {
+    const arrowIds = ['usd_arrow', 'qar_arrow', 'gold_arrow', 'gold18_arrow'];
+    arrowIds.forEach(arrowId => {
+        const arrow = document.getElementById(arrowId);
+        if (!arrow) return;
+        arrow.classList.remove('up', 'down');
+        arrow.classList.add('neutral');
+        const textSpan = arrow.querySelector('.arrow-val');
+        if (textSpan) textSpan.textContent = '';
+        localStorage.removeItem(arrowId + '_dir');
+        localStorage.removeItem(arrowId + '_val');
+    });
+    // تصفير القيم السابقة المحفوظة
+    prevUsdRate = null;
+    prevQarRate = null;
+    prevGoldRate21 = null;
+    prevGoldRate18 = null;
+    localStorage.removeItem('prev_usd');
+    localStorage.removeItem('prev_qar');
+    localStorage.removeItem('prev_gold21');
+    localStorage.removeItem('prev_gold18');
 }
 
 async function manualRefresh() {
@@ -669,7 +680,6 @@ async function manualRefresh() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // استرجاع حالة الأسهم من localStorage عند فتح الصفحة
     restoreArrowState('usd_arrow');
     restoreArrowState('qar_arrow');
     restoreArrowState('gold_arrow');
