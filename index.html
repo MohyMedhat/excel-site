@@ -488,23 +488,29 @@ function updateArrow(arrowId, cardId, newVal, prevVal) {
     const diff = newVal - prevVal;
     const diffAbs = Math.abs(diff).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+    // لو نفس السعر، السهم يفضل زي ما هو بدون تغيير
     if (diff === 0 || diffAbs === "0.00") return;
 
+    // تحديث اللون والقيمة بس لو في تغيير حقيقي
     arrow.classList.remove('up', 'down', 'neutral');
     card.classList.remove('flash-up', 'flash-down');
 
-    // تحديث النص داخل السهم
     const textSpan = arrow.querySelector('.arrow-val');
     if (textSpan) textSpan.textContent = (diff > 0 ? '+' : '-') + diffAbs;
 
     if (diff > 0) {
         arrow.classList.add('up');
         card.classList.add('flash-up');
+        localStorage.setItem(arrowId + '_dir', 'up');
+        localStorage.setItem(arrowId + '_val', '+' + diffAbs);
     } else {
         arrow.classList.add('down');
         card.classList.add('flash-down');
+        localStorage.setItem(arrowId + '_dir', 'down');
+        localStorage.setItem(arrowId + '_val', '-' + diffAbs);
     }
 
+    // الـ flash بيروح بس السهم يفضل بلونه
     setTimeout(() => { card.classList.remove('flash-up', 'flash-down'); }, 900);
 }
 
@@ -641,9 +647,26 @@ async function manualRefresh() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // استرجاع حالة الأسهم من localStorage عند فتح الصفحة
+    restoreArrowState('usd_arrow');
+    restoreArrowState('gold_arrow');
+    restoreArrowState('gold18_arrow');
+
     loadData();
     setInterval(loadData, 2000); 
 });
+
+function restoreArrowState(arrowId) {
+    const arrow = document.getElementById(arrowId);
+    if (!arrow) return;
+    const dir = localStorage.getItem(arrowId + '_dir');
+    const val = localStorage.getItem(arrowId + '_val');
+    if (!dir || !val) return;
+    arrow.classList.remove('neutral');
+    arrow.classList.add(dir);
+    const textSpan = arrow.querySelector('.arrow-val');
+    if (textSpan) textSpan.textContent = val;
+}
 </script>
 </body>
 </html>
