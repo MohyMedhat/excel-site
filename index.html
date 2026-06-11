@@ -284,6 +284,27 @@
     .change-arrow.up svg { transform: rotate(0deg); }
     .change-arrow.down svg { transform: rotate(180deg); }
 
+    .clear-arrow-btn {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: var(--text-secondary);
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        font-size: 14px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding: 0;
+    }
+    .clear-arrow-btn:hover {
+        background: rgba(255,255,255,0.1);
+        color: var(--text-primary);
+    }
+
     /* Flash animation on value change */
     @keyframes flashGreen {
         0% { background: rgba(16, 185, 129, 0.0); }
@@ -406,6 +427,7 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
                             <span class="arrow-val"></span>
                         </span>
+                        <button class="clear-arrow-btn" onclick="clearArrow('usd_arrow','E10')" title="مسح السهم">×</button>
                     </div>
                 </div>
             </div>
@@ -434,6 +456,7 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
                             <span class="arrow-val"></span>
                         </span>
+                        <button class="clear-arrow-btn" onclick="clearArrow('qar_arrow','E11')" title="مسح السهم">×</button>
                     </div>
                 </div>
             </div>
@@ -467,11 +490,13 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
                             <span class="arrow-val"></span>
                         </span>
+                        <button class="clear-arrow-btn" onclick="clearArrow('gold_arrow','E16')" title="مسح السهم">×</button>
                         <span style="font-size:11px; color: var(--text-secondary); font-weight:700;">عيار 18</span>
                         <span class="change-arrow neutral" id="gold18_arrow">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
                             <span class="arrow-val"></span>
                         </span>
+                        <button class="clear-arrow-btn" onclick="clearArrow('gold18_arrow','E17')" title="مسح السهم">×</button>
                     </div>
                 </div>
             </div>
@@ -491,6 +516,32 @@ let prevQarRate    = null;
 let prevGoldRate21 = null;
 let prevGoldRate18 = null;
 let firstLoad = true; // أول تحميل: نقرا القيم القديمة من الشيت من غير ما نحدّثها
+
+// آخر قيم حالية معروفة (لاستخدامها عند الضغط على زر المسح)
+let currentRates = { usd: null, qar: null, gold21: null, gold18: null };
+
+// مسح السهم يدوياً: يرجعه محايد ويحدّث القيمة المحفوظة في الشيت بالسعر الحالي
+async function clearArrow(arrowId, cell) {
+    const arrow = document.getElementById(arrowId);
+    if (!arrow) return;
+
+    arrow.classList.remove('up', 'down');
+    arrow.classList.add('neutral');
+    const textSpan = arrow.querySelector('.arrow-val');
+    if (textSpan) textSpan.textContent = '';
+
+    let cellMap = { usd_arrow: 'usd', qar_arrow: 'qar', gold_arrow: 'gold21', gold18_arrow: 'gold18' };
+    let key = cellMap[arrowId];
+    let val = currentRates[key];
+
+    if (val !== null) {
+        await saveToSheet(cell, val);
+        if (key === 'usd') prevUsdRate = val;
+        else if (key === 'qar') prevQarRate = val;
+        else if (key === 'gold21') prevGoldRate21 = val;
+        else if (key === 'gold18') prevGoldRate18 = val;
+    }
+}
 
 // تحديث سهم التغيير
 function updateArrow(arrowId, cardId, newVal, prevVal) {
@@ -658,21 +709,25 @@ async function loadData() {
 
         // تحديث الأسهم بعد قراءة كل البيانات وحفظ القيم الجديدة في الشيت
         if (newUsdRate !== null) {
+            currentRates.usd = newUsdRate;
             updateArrow('usd_arrow', 'card_usa', newUsdRate, prevUsdRate);
             if (prevUsdRate !== newUsdRate) saveToSheet('E10', newUsdRate);
             prevUsdRate = newUsdRate;
         }
         if (newQarRate !== null) {
+            currentRates.qar = newQarRate;
             updateArrow('qar_arrow', 'card_qatar', newQarRate, prevQarRate);
             if (prevQarRate !== newQarRate) saveToSheet('E11', newQarRate);
             prevQarRate = newQarRate;
         }
         if (newGoldRate21 !== null) {
+            currentRates.gold21 = newGoldRate21;
             updateArrow('gold_arrow', 'card_gold', newGoldRate21, prevGoldRate21);
             if (prevGoldRate21 !== newGoldRate21) saveToSheet('E16', newGoldRate21);
             prevGoldRate21 = newGoldRate21;
         }
         if (newGoldRate18 !== null) {
+            currentRates.gold18 = newGoldRate18;
             updateArrow('gold18_arrow', 'card_gold', newGoldRate18, prevGoldRate18);
             if (prevGoldRate18 !== newGoldRate18) saveToSheet('E17', newGoldRate18);
             prevGoldRate18 = newGoldRate18;
