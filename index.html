@@ -16,7 +16,6 @@
         --border-color: rgba(255, 255, 255, 0.06);
         --text-primary: #f8fafc;
         --text-secondary: #64748b;
-        
         --egypt-color: #ff4a4a;
         --egypt-glow: rgba(255, 74, 74, 0.2);
         --usa-color: #3b82f6;
@@ -89,7 +88,6 @@
         animation: pulse 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
     }
 
-    /* --- آخر تحديث --- */
     .last-update-bar {
         display: flex;
         align-items: center;
@@ -102,10 +100,7 @@
         padding: 5px 14px;
         border-radius: 20px;
     }
-    .last-update-bar span#last_update_time {
-        color: #94a3b8;
-        font-weight: 800;
-    }
+    .last-update-bar span#last_update_time { color: #94a3b8; font-weight: 800; }
 
     .header-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
@@ -124,12 +119,11 @@
         gap: 10px;
         transition: all 0.3s ease;
     }
-
     .refresh-btn:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
     .refresh-btn.spinning svg { animation: spin 1s linear infinite; }
 
     .container { max-width: 1300px; margin: 40px auto; padding: 0 24px; }
-    
+
     .summary-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -154,25 +148,11 @@
         box-shadow: 0 15px 30px -10px var(--summary-glow);
         transform: translateY(-2px);
     }
-    .summary-info .summary-label {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--text-secondary);
-        margin-bottom: 4px;
-    }
-    .summary-info .summary-value {
-        font-size: 26px;
-        font-weight: 900;
-        color: #ffffff;
-    }
+    .summary-info .summary-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; }
+    .summary-info .summary-value { font-size: 26px; font-weight: 900; color: #ffffff; }
     .summary-badge {
-        font-size: 11px;
-        font-weight: 800;
-        padding: 4px 12px;
-        border-radius: 12px;
-        background: rgba(56, 189, 248, 0.08);
-        color: #38bdf8;
-        border: 1px solid rgba(56, 189, 248, 0.2);
+        font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 12px;
+        background: rgba(56, 189, 248, 0.08); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
     .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
@@ -202,34 +182,22 @@
 
     .card-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
 
-    .flag-wrapper { 
-        width: 85px; 
-        height: 85px; 
-        border-radius: 50%; 
-        overflow: hidden;
-        margin-bottom: 20px; 
-        border: 2px solid rgba(255, 255, 255, 0.08); 
+    .flag-wrapper {
+        width: 85px; height: 85px; border-radius: 50%; overflow: hidden;
+        margin-bottom: 20px; border: 2px solid rgba(255, 255, 255, 0.08);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
         transition: transform 0.4s ease;
     }
-    
     .card:hover .flag-wrapper { transform: scale(1.08); }
     .flag-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .flag-wrapper.gold-icon { 
-        background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); 
-        border-color: rgba(245, 158, 11, 0.3);
-    }
+    .flag-wrapper.gold-icon { background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border-color: rgba(245, 158, 11, 0.3); }
     .flag-wrapper.gold-icon img { width: 75%; height: 75%; object-fit: contain; }
 
     .country-title { font-size: 16px; font-weight: 700; color: var(--text-secondary); margin-bottom: 5px; }
 
     .values-container { display: flex; flex-direction: column; align-items: center; margin-top: 10px; width: 100%; }
     .numeric-value { font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; line-height: 1.1; transition: all 0.2s ease; }
-    
     .card-egypt .numeric-value { text-shadow: 0 0 25px rgba(255, 74, 74, 0.3); }
     .card-usa .numeric-value { text-shadow: 0 0 25px rgba(59, 130, 246, 0.3); }
     .card-qatar .numeric-value { text-shadow: 0 0 25px rgba(168, 85, 247, 0.3); }
@@ -239,73 +207,28 @@
     .cash-label { color: var(--text-secondary); font-weight: 600; }
     .cash-amount { font-weight: 800; color: #e2e8f0; }
 
-    /* --- سهم التغيير --- */
-    .price-change-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 10px;
-    }
+    .price-change-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
 
     .change-arrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 13px;
-        font-weight: 800;
-        padding: 4px 12px;
-        border-radius: 20px;
-        transition: all 0.4s ease;
+        display: inline-flex; align-items: center; gap: 5px;
+        font-size: 13px; font-weight: 800; padding: 4px 12px;
+        border-radius: 20px; transition: all 0.4s ease;
     }
-
-    .change-arrow.up {
-        color: var(--up-color);
-        background: rgba(16, 185, 129, 0.1);
-        border: 1px solid rgba(16, 185, 129, 0.25);
-    }
-
-    .change-arrow.down {
-        color: var(--down-color);
-        background: rgba(239, 68, 68, 0.1);
-        border: 1px solid rgba(239, 68, 68, 0.25);
-    }
-
-    .change-arrow.neutral {
-        color: #94a3b8;
-        background: rgba(148, 163, 184, 0.07);
-        border: 1px solid rgba(148, 163, 184, 0.15);
-    }
-
-    .change-arrow svg {
-        transition: transform 0.3s ease;
-    }
-
+    .change-arrow.up { color: var(--up-color); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); }
+    .change-arrow.down { color: var(--down-color); background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); }
+    .change-arrow.neutral { color: #94a3b8; background: rgba(148, 163, 184, 0.07); border: 1px solid rgba(148, 163, 184, 0.15); }
+    .change-arrow svg { transition: transform 0.3s ease; }
     .change-arrow.up svg { transform: rotate(0deg); }
     .change-arrow.down svg { transform: rotate(180deg); }
 
     .clear-arrow-btn {
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.1);
-        color: var(--text-secondary);
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        font-size: 14px;
-        line-height: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        padding: 0;
+        background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+        color: var(--text-secondary); width: 22px; height: 22px; border-radius: 50%;
+        font-size: 14px; line-height: 1; display: flex; align-items: center;
+        justify-content: center; cursor: pointer; transition: all 0.2s ease; padding: 0;
     }
-    .clear-arrow-btn:hover {
-        background: rgba(255,255,255,0.1);
-        color: var(--text-primary);
-    }
+    .clear-arrow-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
 
-    /* Flash animation on value change */
     @keyframes flashGreen {
         0% { background: rgba(16, 185, 129, 0.0); }
         30% { background: rgba(16, 185, 129, 0.15); }
@@ -318,7 +241,6 @@
     }
     .flash-up { animation: flashGreen 0.8s ease; }
     .flash-down { animation: flashRed 0.8s ease; }
-
     .value-update { opacity: 0.4; transform: scale(0.96); }
 
     @keyframes pulse {
@@ -327,6 +249,92 @@
         100% { transform: scale(0.9); opacity: 0.6; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* ===== المصاريف ===== */
+    .expenses-form-card {
+        background: rgba(245, 158, 11, 0.03);
+        border: 1px solid rgba(245, 158, 11, 0.15);
+        border-radius: 24px;
+        padding: 28px;
+        margin-bottom: 28px;
+    }
+    .expenses-form-title {
+        display: flex; align-items: center; gap: 10px;
+        font-size: 16px; font-weight: 800; color: #f59e0b; margin-bottom: 22px;
+    }
+    .expenses-form-grid {
+        display: grid; grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px; margin-bottom: 20px;
+    }
+    @media (max-width: 600px) { .expenses-form-grid { grid-template-columns: 1fr 1fr; } }
+    .form-group label {
+        display: block; font-size: 11px; font-weight: 700;
+        color: var(--text-secondary); margin-bottom: 8px;
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .form-group input {
+        width: 100%; background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+        padding: 11px 14px; color: #f8fafc; font-family: 'Cairo', sans-serif;
+        font-size: 14px; font-weight: 600; outline: none;
+        transition: border-color 0.2s; direction: rtl;
+    }
+    .form-group input:focus { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.04); }
+    .form-group input::placeholder { color: #475569; }
+    .currency-selector { display: flex; gap: 8px; }
+    .cur-btn {
+        flex: 1; padding: 11px 6px; border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03);
+        color: var(--text-secondary); font-family: 'Cairo', sans-serif;
+        font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s;
+    }
+    .cur-btn.active { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.4); color: #f59e0b; }
+    .add-expense-btn {
+        width: 100%; padding: 14px;
+        background: linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.08) 100%);
+        border: 1px solid rgba(245,158,11,0.35); border-radius: 14px;
+        color: #f59e0b; font-family: 'Cairo', sans-serif; font-size: 15px;
+        font-weight: 800; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; gap: 10px; transition: all 0.25s;
+    }
+    .add-expense-btn:hover { background: rgba(245,158,11,0.2); transform: translateY(-1px); }
+    .add-expense-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .exp-feedback {
+        margin-top: 12px; padding: 10px 16px; border-radius: 10px;
+        font-size: 13px; font-weight: 700; text-align: center;
+    }
+    .exp-feedback.success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); color: #10b981; }
+    .exp-feedback.error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #ef4444; }
+    .expenses-list-header {
+        display: flex; justify-content: space-between; align-items: center;
+        font-size: 14px; font-weight: 700; color: var(--text-secondary);
+        margin-bottom: 16px; padding: 0 4px;
+    }
+    .exp-item {
+        background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 16px; padding: 16px 20px; margin-bottom: 10px;
+        display: flex; justify-content: space-between; align-items: center;
+        gap: 12px; transition: all 0.2s; animation: slideIn 0.3s ease;
+    }
+    .exp-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(245,158,11,0.2); }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    .exp-item-right { display: flex; align-items: center; gap: 14px; }
+    .exp-item-icon {
+        width: 40px; height: 40px; border-radius: 12px;
+        background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px; flex-shrink: 0;
+    }
+    .exp-item-name { font-size: 14px; font-weight: 800; color: #f1f5f9; }
+    .exp-item-meta { font-size: 11px; color: var(--text-secondary); margin-top: 3px; font-weight: 600; }
+    .exp-item-left { text-align: left; flex-shrink: 0; }
+    .exp-item-amount { font-size: 16px; font-weight: 900; }
+    .exp-item-amount.egp { color: var(--egypt-color); }
+    .exp-item-amount.qar { color: var(--qatar-color); }
+    .exp-item-amount.usd { color: var(--usa-color); }
+    .exp-item-date { font-size: 11px; color: var(--text-secondary); margin-top: 3px; font-weight: 600; text-align: left; }
+    .exp-loading { text-align: center; color: var(--text-secondary); padding: 40px; font-size: 14px; font-weight: 600; }
+    .exp-empty { text-align: center; color: var(--text-secondary); padding: 50px 20px; font-size: 14px; font-weight: 600; }
 
     @media (max-width: 768px) {
         .header { padding: 15px 20px; flex-direction: column; gap: 15px; }
@@ -347,7 +355,6 @@
         <h1>لوحة المراقبة والتحليل المالي الذكي</h1>
     </div>
     <div class="header-left">
-        <!-- آخر تحديث -->
         <div class="last-update-bar">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             آخر تحديث:&nbsp;<span id="last_update_time">--</span>
@@ -356,11 +363,15 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             <span>تحديث فوري</span>
         </button>
+        <button class="refresh-btn" id="expensesTabBtn" onclick="toggleExpenses()" style="border-color: rgba(245,158,11,0.3); color: #f59e0b;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <span>المصاريف</span>
+        </button>
     </div>
 </div>
 
-<div class="container">
-    
+<!-- الداشبورد الرئيسي -->
+<div class="container" id="mainDashboard">
     <div class="summary-grid">
         <div class="summary-card">
             <div class="summary-info">
@@ -386,7 +397,7 @@
     </div>
 
     <div class="grid-cards">
-        
+
         <div class="card card-egypt">
             <span class="currency-badge">EGP / ج.م</span>
             <div class="card-content">
@@ -403,7 +414,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card card-usa" id="card_usa">
             <span class="currency-badge">USD / $</span>
             <div class="card-content">
@@ -421,7 +432,6 @@
                         <span class="cash-label">سعر الدولار الآن:</span>
                         <span class="cash-amount" id="usd_rate" style="color: #3b82f6;">--</span>
                     </div>
-                    <!-- سهم الدولار -->
                     <div class="price-change-row">
                         <span class="change-arrow neutral" id="usd_arrow">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
@@ -432,7 +442,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card card-qatar" id="card_qatar">
             <span class="currency-badge">QAR / ر.ق</span>
             <div class="card-content">
@@ -450,7 +460,6 @@
                         <span class="cash-label">سعر الريال الآن:</span>
                         <span class="cash-amount" id="qar_rate" style="color: #a855f7;">--</span>
                     </div>
-                    <!-- سهم الريال -->
                     <div class="price-change-row">
                         <span class="change-arrow neutral" id="qar_arrow">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
@@ -483,7 +492,6 @@
                         <span class="cash-label">سعر عيار 18:</span>
                         <span class="cash-amount" id="gold_rate_18" style="color: #f59e0b;">--</span>
                     </div>
-                    <!-- سهم عيار 21 و18 -->
                     <div class="price-change-row" style="margin-top: 10px; gap: 12px;">
                         <span class="change-arrow neutral" id="gold_arrow">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 5 5 12"/></svg>
@@ -503,128 +511,302 @@
     </div>
 </div>
 
+<!-- لوحة المصاريف -->
+<div id="expensesPanel" style="display:none;">
+    <div class="container" style="margin-top: 30px;">
+
+        <div class="expenses-form-card">
+            <div class="expenses-form-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                تسجيل مصروف جديد
+            </div>
+            <div class="expenses-form-grid">
+                <div class="form-group">
+                    <label>اسم المصروف</label>
+                    <input type="text" id="exp_name" placeholder="مثال: سوبرماركت" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>المبلغ</label>
+                    <input type="number" id="exp_amount" placeholder="0.00" inputmode="decimal">
+                </div>
+                <div class="form-group">
+                    <label>العملة</label>
+                    <div class="currency-selector">
+                        <button class="cur-btn active" data-cur="EGP" onclick="selectCurrency(this)">ج.م</button>
+                        <button class="cur-btn" data-cur="QAR" onclick="selectCurrency(this)">ر.ق</button>
+                        <button class="cur-btn" data-cur="USD" onclick="selectCurrency(this)">$</button>
+                    </div>
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>ملاحظة (اختياري)</label>
+                    <input type="text" id="exp_note" placeholder="تفاصيل إضافية..." autocomplete="off">
+                </div>
+            </div>
+            <button class="add-expense-btn" onclick="addExpense()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span id="addBtnText">إضافة المصروف</span>
+            </button>
+            <div id="exp_feedback" class="exp-feedback" style="display:none;"></div>
+        </div>
+
+        <div class="expenses-list-header">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                <span>سجل المصاريف</span>
+            </div>
+            <button class="refresh-btn" onclick="loadExpenses()" style="padding: 7px 14px; font-size:12px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                تحديث
+            </button>
+        </div>
+        <div id="expenses_list">
+            <div class="exp-loading">جاري التحميل...</div>
+        </div>
+
+    </div>
+</div>
+
 <script>
-const apiUrl = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
+const apiUrl         = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
+const expensesApiUrl = "https://script.google.com/macros/s/AKfycbxHc-fgb-9GpYMLuQYIjb3ASoV7hwRZU0dC9SbBLgJujU6XYAX7XfbUQqQ8sMK91kkpqg/exec";
 
 let isFetching = false;
-
-// القيم السابقة هتتقرا من الشيت نفسه (خلايا E10, E11, E16, E17)
 let prevUsdRate    = null;
 let prevQarRate    = null;
 let prevGoldRate21 = null;
 let prevGoldRate18 = null;
-let firstLoad = true; // أول تحميل: نقرا القيم القديمة من الشيت من غير ما نحدّثها
-
-// آخر قيم حالية معروفة (لاستخدامها عند الضغط على زر المسح)
+let firstLoad = true;
 let currentRates = { usd: null, qar: null, gold21: null, gold18: null };
+let selectedCurrency = "EGP";
+let expensesPanelOpen = false;
 
-// مسح السهم يدوياً: يرجعه محايد ويحدّث القيمة المحفوظة في الشيت بالسعر الحالي
+// ===== المصاريف =====
+function toggleExpenses() {
+    expensesPanelOpen = !expensesPanelOpen;
+    const panel = document.getElementById('expensesPanel');
+    const dash   = document.getElementById('mainDashboard');
+    const btn    = document.getElementById('expensesTabBtn');
+    if (expensesPanelOpen) {
+        panel.style.display = 'block';
+        dash.style.display  = 'none';
+        btn.style.background = 'rgba(245,158,11,0.1)';
+        btn.querySelector('span').textContent = 'الداشبورد';
+        loadExpenses();
+    } else {
+        panel.style.display = 'none';
+        dash.style.display  = 'block';
+        btn.style.background = '';
+        btn.querySelector('span').textContent = 'المصاريف';
+    }
+}
+
+function selectCurrency(el) {
+    document.querySelectorAll('.cur-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    selectedCurrency = el.dataset.cur;
+}
+
+async function addExpense() {
+    const name   = document.getElementById('exp_name').value.trim();
+    const amount = parseFloat(document.getElementById('exp_amount').value);
+    const note   = document.getElementById('exp_note').value.trim();
+    const btn    = document.querySelector('.add-expense-btn');
+
+    if (!name)               return showFeedback('اكتب اسم المصروف', 'error');
+    if (!amount || amount<=0) return showFeedback('اكتب مبلغ صحيح', 'error');
+
+    btn.disabled = true;
+    document.getElementById('addBtnText').textContent = 'جاري الحفظ...';
+
+    try {
+        await fetch(expensesApiUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, amount, currency: selectedCurrency, note })
+        });
+        document.getElementById('exp_name').value   = '';
+        document.getElementById('exp_amount').value = '';
+        document.getElementById('exp_note').value   = '';
+        showFeedback('✅ تم حفظ المصروف في الشيت!', 'success');
+        setTimeout(() => loadExpenses(), 1500);
+    } catch (err) {
+        showFeedback('حصل خطأ، حاول تاني', 'error');
+    } finally {
+        btn.disabled = false;
+        document.getElementById('addBtnText').textContent = 'إضافة المصروف';
+    }
+}
+
+async function deleteExpense(timestamp, name) {
+    if (!confirm(`هتحذف "${name}"؟`)) return;
+    try {
+        await fetch(expensesApiUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'delete', timestamp, name })
+        });
+        showFeedback('✅ تم الحذف', 'success');
+        setTimeout(() => loadExpenses(), 1000);
+    } catch(err) {
+        showFeedback('حصل خطأ في الحذف', 'error');
+    }
+}
+
+function showFeedback(msg, type) {
+    const el = document.getElementById('exp_feedback');
+    el.textContent = msg;
+    el.className = 'exp-feedback ' + type;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 3500);
+}
+
+async function loadExpenses() {
+    const list = document.getElementById('expenses_list');
+
+    // اعرض الـ cache فوراً لو موجود
+    const cached = localStorage.getItem('expenses_cache');
+    if (cached) {
+        renderExpenses(JSON.parse(cached));
+    } else {
+        list.innerHTML = '<div class="exp-loading">جاري التحميل...</div>';
+    }
+
+    // جيب الجديد في الخلفية
+    try {
+        const res  = await fetch(expensesApiUrl);
+        const rows = await res.json();
+        localStorage.setItem('expenses_cache', JSON.stringify(rows));
+        renderExpenses(rows);
+    } catch(err) {
+        if (!cached) list.innerHTML = '<div class="exp-empty">⚠️ تعذر تحميل البيانات</div>';
+    }
+}
+
+function renderExpenses(rows) {
+    const list = document.getElementById('expenses_list');
+
+    if (!rows || rows.length <= 1) {
+        list.innerHTML = '<div class="exp-empty">📋 مفيش مصاريف مسجلة لحد دلوقتي</div>';
+        return;
+    }
+
+    const data = rows.slice(1).reverse();
+    const icons = {
+        'سوبرماركت':'🛒','مطعم':'🍽️','مواصلات':'🚗','دواء':'💊',
+        'ملابس':'👕','كهرباء':'⚡','إيجار':'🏠','تاكسي':'🚕',
+        'كافيه':'☕','default':'💸'
+    };
+
+    list.innerHTML = data.map(row => {
+        const date      = row[0] ? new Date(row[0]) : null;
+        const name      = row[1] || '';
+        const amount    = parseFloat(row[2]) || 0;
+        const currency  = row[3] || 'EGP';
+        const note      = row[4] || '';
+        const icon      = icons[name] || icons['default'];
+        const curClass  = currency.toLowerCase();
+        const curSymbol = currency==='EGP' ? 'ج.م' : currency==='QAR' ? 'ر.ق' : '$';
+        const dateStr   = date ? `${date.toLocaleDateString('en-GB')} ${date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}` : '';
+        const amountStr = amount.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+        return `
+        <div class="exp-item">
+            <div class="exp-item-right">
+                <div class="exp-item-icon">${icon}</div>
+                <div>
+                    <div class="exp-item-name">${name}</div>
+                    ${note ? `<div class="exp-item-meta">${note}</div>` : ''}
+                </div>
+            </div>
+            <div class="exp-item-left">
+                <div class="exp-item-amount ${curClass}">${amountStr} ${curSymbol}</div>
+                <div class="exp-item-date">${dateStr}</div>
+            </div>
+            <button onclick="deleteExpense('${row[0]}','${name}')" style="
+                background: rgba(239,68,68,0.08);
+                border: 1px solid rgba(239,68,68,0.2);
+                color: #ef4444; border-radius: 10px;
+                padding: 6px 10px; cursor: pointer;
+                font-size: 16px; line-height: 1;
+                transition: all 0.2s; flex-shrink: 0;
+            " onmouseover="this.style.background='rgba(239,68,68,0.18)'" onmouseout="this.style.background='rgba(239,68,68,0.08)'">🗑️</button>
+        </div>`;
+    }).join('');
+}
+
+// ===== الداشبورد الرئيسي =====
 async function clearArrow(arrowId, cell) {
     const arrow = document.getElementById(arrowId);
     if (!arrow) return;
-
     arrow.classList.remove('up', 'down');
     arrow.classList.add('neutral');
     const textSpan = arrow.querySelector('.arrow-val');
     if (textSpan) textSpan.textContent = '';
-
-    let cellMap = { usd_arrow: 'usd', qar_arrow: 'qar', gold_arrow: 'gold21', gold18_arrow: 'gold18' };
+    let cellMap = { usd_arrow:'usd', qar_arrow:'qar', gold_arrow:'gold21', gold18_arrow:'gold18' };
     let key = cellMap[arrowId];
     let val = currentRates[key];
-
     if (val !== null) {
         await saveToSheet(cell, val);
-        if (key === 'usd') prevUsdRate = val;
-        else if (key === 'qar') prevQarRate = val;
-        else if (key === 'gold21') prevGoldRate21 = val;
-        else if (key === 'gold18') prevGoldRate18 = val;
+        if (key==='usd')    prevUsdRate    = val;
+        else if (key==='qar')    prevQarRate    = val;
+        else if (key==='gold21') prevGoldRate21 = val;
+        else if (key==='gold18') prevGoldRate18 = val;
     }
 }
 
-// تحديث سهم التغيير
 function updateArrow(arrowId, cardId, newVal, prevVal) {
     const arrow = document.getElementById(arrowId);
-    const card = document.getElementById(cardId);
+    const card  = document.getElementById(cardId);
     if (!arrow || prevVal === null) return;
-
-    const diff = newVal - prevVal;
-    const diffAbs = Math.abs(diff).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    // لو نفس السعر، السهم يفضل زي ما هو بدون تغيير
-    if (diff === 0 || diffAbs === "0.00") return;
-
-    // تحديث اللون والقيمة بس لو في تغيير حقيقي
-    arrow.classList.remove('up', 'down', 'neutral');
-    card.classList.remove('flash-up', 'flash-down');
-
+    const diff    = newVal - prevVal;
+    const diffAbs = Math.abs(diff).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if (diff===0 || diffAbs==="0.00") return;
+    arrow.classList.remove('up','down','neutral');
+    card.classList.remove('flash-up','flash-down');
     const textSpan = arrow.querySelector('.arrow-val');
-    if (textSpan) textSpan.textContent = (diff > 0 ? '+' : '-') + diffAbs;
-
-    if (diff > 0) {
-        arrow.classList.add('up');
-        card.classList.add('flash-up');
-    } else {
-        arrow.classList.add('down');
-        card.classList.add('flash-down');
-    }
-
-    // الـ flash بيروح بس السهم يفضل بلونه
-    setTimeout(() => { card.classList.remove('flash-up', 'flash-down'); }, 900);
+    if (textSpan) textSpan.textContent = (diff>0?'+':'-') + diffAbs;
+    if (diff > 0) { arrow.classList.add('up');   card.classList.add('flash-up'); }
+    else          { arrow.classList.add('down');  card.classList.add('flash-down'); }
+    setTimeout(() => { card.classList.remove('flash-up','flash-down'); }, 900);
 }
 
-// إرسال السعر الجديد ليُحفظ في خلية الشيت (عشان يبان نفس السهم على كل الأجهزة)
 async function saveToSheet(cell, value) {
     try {
-        await fetch(apiUrl, {
-            method: "POST",
-            body: JSON.stringify({ cell: cell, value: value })
-        });
-    } catch (err) {
-        console.error("Save to sheet error:", err);
-    }
+        await fetch(apiUrl, { method:"POST", body: JSON.stringify({cell, value}) });
+    } catch(err) { console.error("Save error:", err); }
 }
 
-function smoothUpdate(elementId, value, isDecimal = false) {
+function smoothUpdate(elementId, value, isDecimal=false) {
     const element = document.getElementById(elementId);
     if (!element) return;
-    
-    let formattedValue;
-    if (isDecimal) {
-        formattedValue = Number(value).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
-    } else {
-        formattedValue = Math.round(value).toLocaleString('en-US');
-    }
-    
+    let formattedValue = isDecimal
+        ? Number(value).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:2})
+        : Math.round(value).toLocaleString('en-US');
     if (element.textContent !== formattedValue) {
         element.classList.add('value-update');
-        setTimeout(() => {
-            element.textContent = formattedValue;
-            element.classList.remove('value-update');
-        }, 200);
+        setTimeout(() => { element.textContent = formattedValue; element.classList.remove('value-update'); }, 200);
     }
 }
 
 function updateLastUpdateTime() {
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const h = now.getHours().toString().padStart(2,'0');
+    const m = now.getMinutes().toString().padStart(2,'0');
+    const s = now.getSeconds().toString().padStart(2,'0');
     const el = document.getElementById('last_update_time');
-    if (el) el.textContent = `${hours}:${minutes}:${seconds}`;
+    if (el) el.textContent = `${h}:${m}:${s}`;
 }
 
 async function loadData() {
-    if (isFetching) return; 
+    if (isFetching) return;
     isFetching = true;
-    
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error("Network issue");
-        
-        const matrix = await response.json(); 
+        const matrix = await response.json();
 
-        // قراءة القيم القديمة المحفوظة في الشيت (E10, E11, E16, E17)
-        // E = العمود الخامس (index 4), الصفوف 10,11,16,17 = index 9,10,15,16
         function getCell(rowIdx, colIdx) {
             if (matrix[rowIdx] && matrix[rowIdx][colIdx] !== undefined && matrix[rowIdx][colIdx] !== "") {
                 let v = Number(matrix[rowIdx][colIdx]);
@@ -634,107 +816,45 @@ async function loadData() {
         }
 
         if (firstLoad) {
-            prevUsdRate    = getCell(9, 4);  // E10
-            prevQarRate    = getCell(10, 4); // E11
-            prevGoldRate21 = getCell(15, 4); // E16
-            prevGoldRate18 = getCell(16, 4); // E17
+            prevUsdRate    = getCell(9,  4);
+            prevQarRate    = getCell(10, 4);
+            prevGoldRate21 = getCell(15, 4);
+            prevGoldRate18 = getCell(16, 4);
             firstLoad = false;
         }
 
-        let newUsdRate = null;
-        let newQarRate = null;
-        let newGoldRate21 = null;
-        let newGoldRate18 = null;
+        let newUsdRate=null, newQarRate=null, newGoldRate21=null, newGoldRate18=null;
 
-        for (let r = 0; r < matrix.length; r++) {
+        for (let r=0; r<matrix.length; r++) {
             if (!matrix[r] || matrix[r].length < 2) continue;
-            
-            let cellText = String(matrix[r][0]).replace(/\s+/g, '').trim().toLowerCase();
+            let cellText = String(matrix[r][0]).replace(/\s+/g,'').trim().toLowerCase();
             let num = Number(matrix[r][1]);
-            
             if (isNaN(num)) continue;
 
-            if (cellText === "اجماليمصر" || cellText === "إجماليمصر") {
-                smoothUpdate('total_egypt', num);
-            } 
-            else if (cellText === "اجماليدولار" || cellText === "إجماليدولار") {
-                smoothUpdate('total_usa', num);
-            } 
-            else if (cellText === "اجماليريال" || cellText === "إجماليريال") {
-                smoothUpdate('total_qatar', num);
-            }
-            else if (cellText === "مصري" || cellText === "مصر") {
-                smoothUpdate('cash_egypt', num);
-            } 
-            else if (cellText === "دولار") {
-                smoothUpdate('cash_usa', num);
-            } 
-            else if (cellText === "ريال" || cellText === "قطري") {
-                smoothUpdate('cash_qatar', num);
-            }
-            else if (cellText === "جراماتدهب" || cellText === "جراماتذهب") {
-                smoothUpdate('total_gold_grams', num, true); 
-            }
-            else if (cellText === "دهب" || cellText === "ذهب") {
-                smoothUpdate('total_gold_value', num);
-            }
-            else if (cellText === "سعرالدولارالان" || cellText === "سعرالدولارالأن") {
-                newUsdRate = num;
-                smoothUpdate('usd_rate', num, true);
-            }
-            else if (cellText === "سعرالريالالان" || cellText === "سعرالريالالأن") {
-                newQarRate = num;
-                smoothUpdate('qar_rate', num, true);
-            }
-            else if (cellText === "عيار24" || cellText === "عيار_24") {
-                newGoldRate21 = num;
-                smoothUpdate('gold_rate_21', num);
-            }
-            else if (cellText === "عيار18" || cellText === "عيار_18") {
-                newGoldRate18 = num;
-                smoothUpdate('gold_rate_18', num);
-            }
-            else if (cellText === "كليهمصر" || cellText === "كليةمصر") {
-                smoothUpdate('grand_total_egp', num);
-            }
-            else if (cellText === "كليهدولار" || cellText === "كليةدولار") {
-                smoothUpdate('grand_total_usd', num);
-            }
-            else if (cellText === "كليهريال" || cellText === "كليةريال") {
-                smoothUpdate('grand_total_qar', num);
-            }
+            if      (cellText==="اجماليمصر"||cellText==="إجماليمصر")          smoothUpdate('total_egypt', num);
+            else if (cellText==="اجماليدولار"||cellText==="إجماليدولار")       smoothUpdate('total_usa', num);
+            else if (cellText==="اجماليريال"||cellText==="إجماليريال")         smoothUpdate('total_qatar', num);
+            else if (cellText==="مصري"||cellText==="مصر")                       smoothUpdate('cash_egypt', num);
+            else if (cellText==="دولار")                                          smoothUpdate('cash_usa', num);
+            else if (cellText==="ريال"||cellText==="قطري")                       smoothUpdate('cash_qatar', num);
+            else if (cellText==="جراماتدهب"||cellText==="جراماتذهب")           smoothUpdate('total_gold_grams', num, true);
+            else if (cellText==="دهب"||cellText==="ذهب")                         smoothUpdate('total_gold_value', num);
+            else if (cellText==="سعرالدولارالان"||cellText==="سعرالدولارالأن") { newUsdRate=num;    smoothUpdate('usd_rate', num, true); }
+            else if (cellText==="سعرالريالالان"||cellText==="سعرالريالالأن")   { newQarRate=num;    smoothUpdate('qar_rate', num, true); }
+            else if (cellText==="عيار24"||cellText==="عيار_24")                 { newGoldRate21=num; smoothUpdate('gold_rate_21', num); }
+            else if (cellText==="عيار18"||cellText==="عيار_18")                 { newGoldRate18=num; smoothUpdate('gold_rate_18', num); }
+            else if (cellText==="كليهمصر"||cellText==="كليةمصر")               smoothUpdate('grand_total_egp', num);
+            else if (cellText==="كليهدولار"||cellText==="كليةدولار")           smoothUpdate('grand_total_usd', num);
+            else if (cellText==="كليهريال"||cellText==="كليةريال")             smoothUpdate('grand_total_qar', num);
         }
 
-        // تحديث الأسهم بعد قراءة كل البيانات وحفظ القيم الجديدة في الشيت
-        if (newUsdRate !== null) {
-            currentRates.usd = newUsdRate;
-            updateArrow('usd_arrow', 'card_usa', newUsdRate, prevUsdRate);
-            if (prevUsdRate !== newUsdRate) saveToSheet('E10', newUsdRate);
-            prevUsdRate = newUsdRate;
-        }
-        if (newQarRate !== null) {
-            currentRates.qar = newQarRate;
-            updateArrow('qar_arrow', 'card_qatar', newQarRate, prevQarRate);
-            if (prevQarRate !== newQarRate) saveToSheet('E11', newQarRate);
-            prevQarRate = newQarRate;
-        }
-        if (newGoldRate21 !== null) {
-            currentRates.gold21 = newGoldRate21;
-            updateArrow('gold_arrow', 'card_gold', newGoldRate21, prevGoldRate21);
-            if (prevGoldRate21 !== newGoldRate21) saveToSheet('E16', newGoldRate21);
-            prevGoldRate21 = newGoldRate21;
-        }
-        if (newGoldRate18 !== null) {
-            currentRates.gold18 = newGoldRate18;
-            updateArrow('gold18_arrow', 'card_gold', newGoldRate18, prevGoldRate18);
-            if (prevGoldRate18 !== newGoldRate18) saveToSheet('E17', newGoldRate18);
-            prevGoldRate18 = newGoldRate18;
-        }
+        if (newUsdRate!==null)    { currentRates.usd=newUsdRate;       updateArrow('usd_arrow','card_usa',newUsdRate,prevUsdRate);         if(prevUsdRate!==newUsdRate)    saveToSheet('E10',newUsdRate);    prevUsdRate=newUsdRate; }
+        if (newQarRate!==null)    { currentRates.qar=newQarRate;       updateArrow('qar_arrow','card_qatar',newQarRate,prevQarRate);       if(prevQarRate!==newQarRate)    saveToSheet('E11',newQarRate);    prevQarRate=newQarRate; }
+        if (newGoldRate21!==null) { currentRates.gold21=newGoldRate21; updateArrow('gold_arrow','card_gold',newGoldRate21,prevGoldRate21); if(prevGoldRate21!==newGoldRate21) saveToSheet('E16',newGoldRate21); prevGoldRate21=newGoldRate21; }
+        if (newGoldRate18!==null) { currentRates.gold18=newGoldRate18; updateArrow('gold18_arrow','card_gold',newGoldRate18,prevGoldRate18); if(prevGoldRate18!==newGoldRate18) saveToSheet('E17',newGoldRate18); prevGoldRate18=newGoldRate18; }
 
-        // تحديث وقت آخر تحديث ناجح
         updateLastUpdateTime();
-
-    } catch (err) {
+    } catch(err) {
         console.error("Dashboard error:", err);
     } finally {
         isFetching = false;
@@ -750,7 +870,7 @@ async function manualRefresh() {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
-    setInterval(loadData, 2000); 
+    setInterval(loadData, 2000);
 });
 </script>
 </body>
