@@ -568,7 +568,7 @@
 
 <script>
 const apiUrl         = "https://script.google.com/macros/s/AKfycbzByqVbXYsBxCR8AL_kjGHC8MbGJkUPZCrqbUaf54F3B11ni6S9TmZPpg0s-J7RDC1oLg/exec";
-const expensesApiUrl = "https://script.google.com/macros/s/AKfycbxHc-fgb-9GpYMLuQYIjb3ASoV7hwRZU0dC9SbBLgJujU6XYAX7XfbUQqQ8sMK91kkpqg/exec";
+const expensesApiUrl = "https://script.google.com/macros/s/AKfycbyqQi8LOAZGVdSI7Hfr3UAZBN3VsY1D_yZaczAZwJy4N0kccpT48HAg-PKCh1adzoeNMw/exec";
 
 let isFetching = false;
 let prevUsdRate    = null;
@@ -619,11 +619,16 @@ async function addExpense() {
     document.getElementById('addBtnText').textContent = 'جاري الحفظ...';
 
     try {
+        const formData = new URLSearchParams();
+        formData.append('name', name);
+        formData.append('amount', amount);
+        formData.append('currency', selectedCurrency);
+        formData.append('note', note);
+
         await fetch(expensesApiUrl, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, amount, currency: selectedCurrency, note })
+            body: formData
         });
         document.getElementById('exp_name').value   = '';
         document.getElementById('exp_amount').value = '';
@@ -641,11 +646,15 @@ async function addExpense() {
 async function deleteExpense(timestamp, name) {
     if (!confirm(`هتحذف "${name}"؟`)) return;
     try {
+        const formData = new URLSearchParams();
+        formData.append('action', 'delete');
+        formData.append('timestamp', timestamp);
+        formData.append('name', name);
+
         await fetch(expensesApiUrl, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'delete', timestamp, name })
+            body: formData
         });
         showFeedback('✅ تم الحذف', 'success');
         setTimeout(() => loadExpenses(), 1000);
